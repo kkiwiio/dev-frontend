@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "327071503047",
+    "project_id": "skhu-venture",
+    "storage_bucket": "skhu-venture.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:327071503047:android:de2a181b872f8c4b6224e2",
+        "android_client_info": {
+          "package_name": "com.example.project_heck"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDx7uDP2toDWEnqsbw322TkeFRfRuU7oHk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
