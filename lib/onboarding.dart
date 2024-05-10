@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
-import 'package:project_heck/main.dart';
+import 'main.dart';
+import 'login.dart';
+
 
 class OnBoardingPage extends StatelessWidget {
   const OnBoardingPage({super.key});

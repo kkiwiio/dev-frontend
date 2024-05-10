@@ -1,131 +1,114 @@
 import 'package:flutter/material.dart';
-
-
+import 'sign_up.dart';
 
 class LogIn extends StatefulWidget {
   const LogIn({super.key});
+
   @override
   State<LogIn> createState() => _LogInState();
 }
 
 class _LogInState extends State<LogIn> {
-  TextEditingController controller = TextEditingController();
-  TextEditingController controller2 = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('로그인'),
-        elevation: 0.0,
-        backgroundColor: Colors.redAccent,
-        centerTitle: true,
-        leading: IconButton(icon: Icon(Icons.menu), onPressed: () {}),
-        actions: <Widget>[
-          IconButton(icon: Icon(Icons.search), onPressed: () {})
-        ],
-      ),
-      // email, password 입력하는 부분을 제외한 화면을 탭하면, 키보드 사라지게 GestureDetector 사용
+      appBar: AppBar(),
       body: GestureDetector(
-        onTap: () {
-          FocusScope.of(context).unfocus();
-        },
+        onTap: () => FocusScope.of(context).unfocus(),
         child: SingleChildScrollView(
           child: Column(
             children: [
-              Padding(padding: EdgeInsets.only(top: 50)),
-              Center(
-                child: Image(
-                  image: AssetImage('image/munji.png'),
-                  width: 170.0,
-                ),
-              ),
-              Form(
-                  child: Theme(
-                    data: ThemeData(
-                        primaryColor: Colors.grey,
-                        inputDecorationTheme: InputDecorationTheme(
-                            labelStyle: TextStyle(color: Colors.teal, fontSize: 15.0))),
-                    child: Container(
-                        padding: EdgeInsets.all(40.0),
-                        child: Builder(builder: (context) {
-                          return Column(
-                            children: [
-                              TextField(
-                                controller: controller,
-                                autofocus: true,
-                                decoration: InputDecoration(labelText: 'Enter email'),
-                                keyboardType: TextInputType.emailAddress,
-                              ),
-                              TextField(
-                                controller: controller2,
-                                decoration:
-                                InputDecoration(labelText: 'Enter password'),
-                                keyboardType: TextInputType.text,
-                                obscureText: true, // 비밀번호 안보이도록 하는 것
-                              ),
-                              SizedBox(
-                                height: 40.0,
-                              ),
-                              ButtonTheme(
-                                  minWidth: 100.0,
-                                  height: 50.0,
-                                  child: ElevatedButton(
-                                    onPressed: () {
-                                      if (controller.text == 'mei@hello.com' &&
-                                          controller2.text == '1234') {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (BuildContext context) =>
-                                                    NextPage()));
-                                      }
-                                      else if (controller.text == 'mei@hello.com' && controller2.text != '1234') {
-                                        showSnackBar(context, Text('Wrong password'));
-                                      }
-                                      else if (controller.text != 'mei@hello.com' && controller2.text == '1234') {
-                                        showSnackBar(context, Text('Wrong email'));
-                                      }
-                                      else {
-                                        showSnackBar(context, Text('Check your info again'));
-                                      }
-                                    },
-                                    child: Icon(
-                                      Icons.arrow_forward,
-                                      color: Colors.white,
-                                      size: 35.0,
-                                    ),
-                                    style: ElevatedButton.styleFrom(
-                                        backgroundColor: Colors.orangeAccent),
-                                  ))
-                            ],
-                          );
-                        })),
-                  ))
+              SizedBox(height: 40),
+              _buildLogo(),
+              _buildLoginForm(context),
             ],
           ),
         ),
       ),
     );
   }
-}
 
-void showSnackBar(BuildContext context, Text text) {
-  final snackBar = SnackBar(
-    content: text,
-    backgroundColor: Color.fromARGB(255, 112, 48, 48),
-  );
+  Widget _buildLogo() {
+    return Center(
+      child: Column(
+        children: [
+          Image.asset('image/main.png', width: 170.0),
+          Padding(
+            padding: EdgeInsets.only(top: 30),
+            child: Text(
+              '스쿠벤처에 오신걸 환영합니다',
+              style: TextStyle(
+                color: Colors.grey,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
-// Find the ScaffoldMessenger in the widget tree
-// and use it to show a SnackBar.
-  ScaffoldMessenger.of(context).showSnackBar(snackBar);
-}
+  Widget _buildLoginForm(BuildContext context) {
+    return Form(
+      child: Padding(
+        padding: const EdgeInsets.all(40.0),
+        child: Column(
+          children: [
+            TextField(
+              controller: emailController,
+              autofocus: true,
+              decoration: const InputDecoration(labelText: '이메일'),
+              keyboardType: TextInputType.emailAddress,
+            ),
+            TextField(
+              controller: passwordController,
+              decoration: const InputDecoration(labelText: '비밀번호'),
+              obscureText: true,
+            ),
+            SizedBox(height: 40.0),
+            _buildLoginButton(),
+            _buildSignUpButton(context),
+          ],
+        ),
+      ),
+    );
+  }
 
-class NextPage extends StatelessWidget {
-  const NextPage() : super();
+  Widget _buildLoginButton() {
+    return SizedBox(
+      width: 307,
+      height: 47,
+      child: ElevatedButton(
+        onPressed: () {
+          // Login button logic
+        },
+        style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all(Color(0xFFF4FFCC)),
+          shape: MaterialStateProperty.all(
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+          ),
+        ),
+        child: const Text('시작하기', style: TextStyle(fontSize: 16)),
+      ),
+    );
+  }
 
-  @override
-  Widget build(BuildContext context) {
-    return Container();
+  Widget _buildSignUpButton(BuildContext context) {
+    return Align(
+      alignment: Alignment.bottomRight,
+      child: TextButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => Sign_up()),
+          );
+        },
+        child: const Text('회원가입', style: TextStyle(fontSize: 15)),
+      ),
+    );
   }
 }
