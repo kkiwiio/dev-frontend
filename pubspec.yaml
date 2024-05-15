@@ -31,6 +31,7 @@ dependencies:
   flutter:
     sdk: flutter
 
+  google_maps_flutter: ^2.2.6
   introduction_screen: ^3.1.14
   sqflite: ^2.2.8 # SQL 쿼리를 사용하기 위함
   mysql_client: ^0.0.27 # MySQL DB 연동을 하기 위함
