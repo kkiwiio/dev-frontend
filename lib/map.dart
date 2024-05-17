@@ -81,6 +81,7 @@ class TestPageState extends State<TestPage> {
 
   Widget _naverMapSection() => NaverMap(
     options: const NaverMapViewOptions(
+      initialCameraPosition: NCameraPosition(target: NLatLng(126.8255598, 37.4877974), zoom: 10),
         indoorEnable: true,
         locationButtonEnable: false,
         consumeSymbolTapEvents: false),
