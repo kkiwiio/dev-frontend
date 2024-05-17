@@ -31,6 +31,7 @@ dependencies:
   flutter:
     sdk: flutter
 
+  flutter_naver_map: ^1.2.2
   google_maps_flutter: ^2.2.6
   introduction_screen: ^3.1.14
   sqflite: ^2.2.8 # SQL 쿼리를 사용하기 위함
