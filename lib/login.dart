@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'sign_up.dart';
+import 'package:project_heck/naver_map.dart';
+import 'package:project_heck/sign_up.dart';
 
 class LogIn extends StatefulWidget {
   const LogIn({super.key});
@@ -21,9 +22,10 @@ class _LogInState extends State<LogIn> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              SizedBox(height: 40),
+              const SizedBox(height: 40),
               _buildLogo(),
               _buildLoginForm(context),
+              _buildSignUpButton(context),
             ],
           ),
         ),
@@ -36,7 +38,7 @@ class _LogInState extends State<LogIn> {
       child: Column(
         children: [
           Image.asset('image/main.png', width: 170.0),
-          Padding(
+          const Padding(
             padding: EdgeInsets.only(top: 30),
             child: Text(
               '스쿠벤처에 오신걸 환영합니다',
@@ -63,36 +65,48 @@ class _LogInState extends State<LogIn> {
               autofocus: true,
               decoration: const InputDecoration(labelText: '이메일'),
               keyboardType: TextInputType.emailAddress,
+              onSubmitted: (value) {
+                if (!value.contains('@')) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('유효한 이메일 주소를 입력해주세요.')),
+                  );
+                }
+              },
             ),
             TextField(
               controller: passwordController,
               decoration: const InputDecoration(labelText: '비밀번호'),
               obscureText: true,
             ),
-            SizedBox(height: 40.0),
-            _buildLoginButton(),
-            _buildSignUpButton(context),
+            const SizedBox(height: 40.0),
+            _buildLoginButton(
+                context), // Updated to use new login button method
           ],
         ),
       ),
     );
   }
 
-  Widget _buildLoginButton() {
+  Widget _buildLoginButton(BuildContext context) {
     return SizedBox(
       width: 307,
       height: 47,
       child: ElevatedButton(
         onPressed: () {
-          // Login button logic
+          if (emailController.text.contains('@') &&
+              passwordController.text.isNotEmpty) {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const NaverMapApp()));
+          }
         },
         style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all(Color(0xFFF4FFCC)),
-          shape: MaterialStateProperty.all(
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-          ),
+          backgroundColor: MaterialStateProperty.all(const Color(0xFFF4FFCC)),
+          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+              RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30),
+          )),
         ),
-        child: const Text('시작하기', style: TextStyle(fontSize: 16)),
+        child: const Text('Login'),
       ),
     );
   }
@@ -103,11 +117,10 @@ class _LogInState extends State<LogIn> {
       child: TextButton(
         onPressed: () {
           Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => Sign_up()),
-          );
+              context, MaterialPageRoute(builder: (context) => const SignUp()));
         },
-        child: const Text('회원가입', style: TextStyle(fontSize: 15)),
+        child:
+            const Text('회원가입', style: TextStyle(fontWeight: FontWeight.bold)),
       ),
     );
   }
