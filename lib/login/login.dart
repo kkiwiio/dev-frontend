@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:project_heck/naver_map.dart';
-import 'package:project_heck/sign_up.dart';
+import 'package:project_heck/naver_map/naver_map.dart';
+import 'package:project_heck/login/sign_up.dart';
 
 class LogIn extends StatefulWidget {
   const LogIn({super.key});

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
-import 'login.dart';
+import 'login/login.dart';
 
 class OnBoardingPage extends StatelessWidget {
   const OnBoardingPage({super.key});
