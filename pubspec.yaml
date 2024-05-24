@@ -39,6 +39,7 @@ dependencies:
   mysql_client: ^0.0.27 # MySQL DB 연동을 하기 위함
   shared_preferences: ^2.1.0 # 공유저장소 사용을 하기 위함(자동 로그인)
   crypto: ^3.0.3 # 정보 암호화를 위함 (사용자 비밀번호 암호화)
+  permission_handler: ^11.3.1
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
