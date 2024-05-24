@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
+class SignUp extends StatefulWidget {
+  const SignUp({super.key});
 
-
-class Sign_up extends StatefulWidget {
   @override
-  _Sign_upState createState() => _Sign_upState();
+  _SignUpState createState() => _SignUpState();
 }
 
-class _Sign_upState extends State<Sign_up> {
+class _SignUpState extends State<SignUp> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   final TextEditingController _emailController = TextEditingController();
@@ -17,11 +17,11 @@ class _Sign_upState extends State<Sign_up> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(70.0),
+        preferredSize: const Size.fromHeight(70.0),
         child: AppBar(
           // Here we take the value from the MyHomePage object that was created by
           // the App.build method, and use it to set our appbar title.
-          title: Column(
+          title: const Column(
             children: <Widget>[
               Center(
                 child: Text(
@@ -39,7 +39,6 @@ class _Sign_upState extends State<Sign_up> {
           ),
         ),
       ),
-
       body: Container(
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -48,7 +47,7 @@ class _Sign_upState extends State<Sign_up> {
             children: <Widget>[
               TextFormField(
                 controller: _emailController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                     icon: Icon(Icons.account_circle),
                     labelText: "회원가입할 이메일을 입력해주세요",
                     border: OutlineInputBorder(),
@@ -72,13 +71,13 @@ class _Sign_upState extends State<Sign_up> {
                   ),
                 ),
               ),*/
-              SizedBox(
+              const SizedBox(
                 height: 30.0,
               ),
               TextFormField(
                 obscureText: true, // 비밀번호를 적을때 안보이도록
                 controller: _passwordController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                     icon: Icon(Icons.vpn_key),
                     labelText: "회원가입할 비밀번호를 입력해주세요",
                     border: OutlineInputBorder(),
@@ -90,12 +89,12 @@ class _Sign_upState extends State<Sign_up> {
                   return null;
                 },
               ),
-              SizedBox(
+              const SizedBox(
                 height: 16.0,
               ),
               TextFormField(
                 obscureText: true, // 비밀번호를 적을때 안보이도록
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                     icon: Icon(Icons.vpn_key),
                     labelText: "비밀번호를 한번 더 입력해주세요",
                     border: OutlineInputBorder(),
