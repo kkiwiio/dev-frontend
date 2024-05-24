@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:camera/camera.dart';
+import 'camera_capture.dart';
 
+
+late List<CameraDescription> _cameras;
 void main() => runApp(App());
 
 class App extends StatelessWidget {
@@ -36,6 +40,7 @@ class AppPermission extends State<AppState> {
 
     if (status == PermissionStatus.granted) {
       print('Permission Granted');
+      camera();
     } else if (status == PermissionStatus.denied) {
       print('Permission denied');
     } else if (status == PermissionStatus.permanentlyDenied) {
