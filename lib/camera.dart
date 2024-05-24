@@ -44,23 +44,7 @@ class AppPermission extends State<AppState> {
     }
   }
 
-  Future<void> requestLocationPermission() async {
 
-    final serviceStatusLocation = await Permission.locationWhenInUse.isGranted ;
-
-    bool isLocation = serviceStatusLocation == ServiceStatus.enabled;
-
-    final status = await Permission.locationWhenInUse.request();
-
-    if (status == PermissionStatus.granted) {
-      print('Permission Granted');
-    } else if (status == PermissionStatus.denied) {
-      print('Permission denied');
-    } else if (status == PermissionStatus.permanentlyDenied) {
-      print('Permission Permanently Denied');
-      await openAppSettings();
-    }
-  }
 
   Widget build(BuildContext context) {
     return Center(
@@ -79,17 +63,6 @@ class AppPermission extends State<AppState> {
               ),
             ),
 
-            Container(
-              margin: const EdgeInsets.all(10),
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  padding: EdgeInsets.all(8),
-                  textStyle: TextStyle(fontSize: 20),
-                ),
-                child: Text('Request Runtime Location Permission'),
-                onPressed: requestLocationPermission,
-              ),
-            ),
           ],
         ));
   }
