@@ -64,7 +64,8 @@ flutter:
     - image/splash2.png
     - image/splash3.png
     - image/main.png
-    - image/cat.png
+    - image/pin.png
+    - image/pin2.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
