@@ -5,8 +5,8 @@ import 'package:flutter_naver_map/flutter_naver_map.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await NaverMapSdk.instance.initialize(
-      clientId: '7vff5ieoeb', // 클라이언트 ID를 입력하세요.
-      onAuthFailed: (e) => print("네이버맵 인증오류 : $e"));
+    clientId: '7vff5ieoeb', // 클라이언트 ID를 입력하세요.
+  );
   runApp(const MyApp());
 }
 
