@@ -17,7 +17,7 @@ class NaverMapApp extends StatelessWidget {
       body: NaverMap(
         options: const NaverMapViewOptions(
           zoomGesturesEnable: true,
-          locationButtonEnable: false,
+          locationButtonEnable: true,
           mapType: NMapType.basic,
           logoAlign: NLogoAlign.rightBottom,
           logoClickEnable: true,
