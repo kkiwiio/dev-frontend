@@ -4,7 +4,6 @@ import "package:flutter_naver_map/flutter_naver_map.dart";
 import "package:flutter/material.dart";
 import "package:project_heck/naver_map/campusmarker_model.dart";
 import "package:project_heck/naver_map/dialog_ui.dart";
-import "package:geolocator/geolocator.dart";
 
 const icon = NOverlayImage.fromAssetImage('assets/images/pin2.png');
 
@@ -74,6 +73,7 @@ List<CampusMarker> allMarkers = [
       missionDescription: '아래와 같은 구도로 사진을 찍으세요',
       imagePath: '',
       missionImage: 'assets/images/mission.jpg'),
+
 ];
 
 Set<NMarker> buildCampusMarkers(BuildContext context) {
@@ -93,101 +93,3 @@ Set<NMarker> buildCampusMarkers(BuildContext context) {
   }).toSet();
 }
 
-// StatefulWidget으로 변경하여 위치 정보 및 맵 컨트롤러를 관리
-class NaverMapApp extends StatefulWidget {
-  const NaverMapApp({super.key});
-
-  @override
-  _NaverMapAppState createState() => _NaverMapAppState();
-}
-
-class _NaverMapAppState extends State<NaverMapApp> {
-  late NaverMapController _mapController;
-  Position? _currentPosition;
-  NMarker? _currentLocationMarker;
-
-  @override
-  void initState() {
-    super.initState();
-    _getCurrentLocation();
-  }
-
-  void _getCurrentLocation() async {
-    bool serviceEnabled;
-    LocationPermission permission;
-
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      return Future.error('Location services are disabled.');
-    }
-
-    permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        return Future.error('Location permissions are denied.');
-      }
-    }
-
-    if (permission == LocationPermission.deniedForever) {
-      return Future.error('Location permissions are permanently denied, we cannot request permissions.');
-    }
-
-    _currentPosition = await Geolocator.getCurrentPosition();
-    _updateCurrentLocationMarker();
-  }
-
-  void _updateCurrentLocationMarker() {
-    if (_currentPosition == null) return;
-
-    final position = NLatLng(_currentPosition!.latitude, _currentPosition!.longitude);
-
-    if (_currentLocationMarker == null) {
-      _currentLocationMarker = NMarker(
-        id: "currentLocation",
-        position: position,
-        size: const Size(36, 36),
-        icon: NOverlayImage.fromAssetImage('assets/images/current_location.png'),
-      );
-
-      _currentLocationMarker!.setOnTapListener((NMarker marker) {
-        log("Current location marker clicked");
-      });
-
-      _mapController.addOverlay(_currentLocationMarker!);
-    } else {
-      _currentLocationMarker!.setPosition(position);
-    }
-
-    setState(() {});
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    const initCameraPosition = NCameraPosition(
-      target: NLatLng(37.48798339648247, 126.82544028277228),
-      zoom: 17.8,
-    );
-
-    return Scaffold(
-      appBar: AppBar(title: const Text('Naver Map')),
-      body: NaverMap(
-        options: const NaverMapViewOptions(
-          zoomGesturesEnable: true,
-          locationButtonEnable: true,
-          mapType: NMapType.basic,
-          logoAlign: NLogoAlign.rightBottom,
-          logoClickEnable: true,
-          logoMargin: EdgeInsets.all(16),
-          activeLayerGroups: [NLayerGroup.building, NLayerGroup.transit],
-          initialCameraPosition: initCameraPosition,
-        ),
-        onMapReady: (mapController) {
-          _mapController = mapController;
-          _mapController.addOverlayAll(buildCampusMarkers(context));
-          _updateCurrentLocationMarker();
-        },
-      ),
-    );
-  }
-}
