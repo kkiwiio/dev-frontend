@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:project_heck/naver_map/naver_map.dart';
 import 'package:project_heck/login/sign_up.dart';
+import '../services/auth_service.dart';
 
 class LogIn extends StatefulWidget {
   const LogIn({super.key});
@@ -12,6 +13,7 @@ class LogIn extends StatefulWidget {
 class _LogInState extends State<LogIn> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final AuthService _authService = AuthService();
 
   @override
   Widget build(BuildContext context) {
@@ -116,21 +118,26 @@ class _LogInState extends State<LogIn> {
       width: 307,
       height: 47,
       child: ElevatedButton(
-        onPressed: () {
-          if (_validateInputs()) {
+        onPressed: () async {
+          final response = await _authService.login(
+            emailController.text,
+            passwordController.text,
+          );
+
+          if (response == "Login successful") {
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(builder: (context) => const NaverMapApp()),
             );
           } else {
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('유효한 이메일 주소와 비밀번호를 입력해주세요.')),
+              SnackBar(content: Text(response ?? 'An error occurred')),
             );
           }
         },
         style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all(const Color(0xFFF4FFCC)),
-          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+          backgroundColor: WidgetStateProperty.all(const Color(0xFFF4FFCC)),
+          shape: WidgetStateProperty.all<RoundedRectangleBorder>(
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
           ),
         ),
@@ -154,7 +161,7 @@ class _LogInState extends State<LogIn> {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const SignUp()),
+              MaterialPageRoute(builder: (context) => const SignupPage()),
             );
           },
           child: const Text(
@@ -167,10 +174,5 @@ class _LogInState extends State<LogIn> {
         ),
       ),
     );
-  }
-
-  bool _validateInputs() {
-    return emailController.text.contains('@') &&
-        passwordController.text.isNotEmpty;
   }
 }
