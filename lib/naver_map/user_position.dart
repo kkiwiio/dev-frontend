@@ -1,68 +1,62 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
-import 'package:geolocator/geolocator.dart';
+import 'package:location/location.dart';
 
 class LocationService {
   final NaverMapController mapController;
   NMarker? _currentLocationMarker;
+  Location location = Location();
+  late bool _serviceEnabled;
+  late PermissionStatus _permissionGranted;
 
   LocationService(this.mapController) {
     _initializeLocation();
   }
 
-  Future<Position> _determinePosition() async {
-    bool serviceEnabled;
-    LocationPermission permission;
-
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      return Future.error('Location services are disabled.');
-    }
-
-    permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        return Future.error('Location permissions are denied');
-      }
-    }
-
-    if (permission == LocationPermission.deniedForever) {
-      return Future.error(
-          'Location permissions are permanently denied, we cannot request permissions.');
-    }
-
-    return await Geolocator.getCurrentPosition();
-  }
-
-  void _initializeLocation() async {
+  Future<void> _initializeLocation() async {
     try {
-      Position position = await _determinePosition();
+      _serviceEnabled = await location.serviceEnabled();
+      if (!_serviceEnabled) {
+        _serviceEnabled = await location.requestService();
+        if (!_serviceEnabled) {
+          return;
+        }
+      }
 
+      _permissionGranted = await location.hasPermission();
+      if (_permissionGranted == PermissionStatus.denied) {
+        _permissionGranted = await location.requestPermission();
+        if (_permissionGranted != PermissionStatus.granted) {
+          return;
+        }
+      }
+
+      // 초기 위치 설정
+      LocationData locationData = await location.getLocation();
       _currentLocationMarker = NMarker(
         id: 'currentLocation',
-        position: NLatLng(position.latitude, position.longitude),
-        size: const NSize(36, 36),  // 마커 크기 설정
+        position: NLatLng(locationData.latitude!, locationData.longitude!),
+        size: const NSize(36, 36), // 마커 크기 설정
         icon: NOverlayImage.fromAssetImage('assets/images/current_location.png'),
       );
 
-      mapController.moveCamera(
-        NCameraUpdate.toLatLng(
-          NLatLng(position.latitude, position.longitude),
+      mapController.updateCamera(
+        NCameraUpdate.withParams(
+          target: NLatLng(locationData.latitude!, locationData.longitude!),
           zoom: 17.8,
         ),
       );
       mapController.addOverlay(_currentLocationMarker!);
 
       // 위치 변화 감지 설정
-      Geolocator.getPositionStream().listen((Position position) {
+      location.onLocationChanged.listen((LocationData res) {
         if (_currentLocationMarker != null) {
-          mapController.removeOverlay(_currentLocationMarker!);
+          mapController.getLocationOverlay();
         }
         _currentLocationMarker = NMarker(
           id: 'currentLocation',
-          position: NLatLng(position.latitude, position.longitude),
-          size: const NSize(36, 36),  // 마커 크기 설정
+          position: NLatLng(res.latitude!, res.longitude!),
+          size: const NSize(36, 36), // 마커 크기 설정
           icon: NOverlayImage.fromAssetImage('assets/images/current_location.png'),
         );
         mapController.addOverlay(_currentLocationMarker!);

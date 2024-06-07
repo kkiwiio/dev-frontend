@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:project_heck/naver_map/maker_campus.dart';
-import 'package:project_heck/naver_map/user_position.dart';
+import 'package:project_heck/naver_map/user_position.dart'; // 위치 서비스 임포트
 
 class NaverMapApp extends StatefulWidget {
   const NaverMapApp({super.key});
