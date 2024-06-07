@@ -4,6 +4,7 @@ import "package:flutter_naver_map/flutter_naver_map.dart";
 import "package:flutter/material.dart";
 import "package:project_heck/naver_map/campusmarker_model.dart";
 import "package:project_heck/naver_map/dialog_ui.dart";
+import "package:geolocator/geolocator.dart";
 
 const icon = NOverlayImage.fromAssetImage('assets/images/pin2.png');
 
@@ -73,6 +74,7 @@ List<CampusMarker> allMarkers = [
       missionDescription: '아래와 같은 구도로 사진을 찍으세요',
       imagePath: '',
       missionImage: 'assets/images/mission.jpg'),
+
 ];
 
 Set<NMarker> buildCampusMarkers(BuildContext context) {
@@ -91,3 +93,4 @@ Set<NMarker> buildCampusMarkers(BuildContext context) {
     return marker;
   }).toSet();
 }
+
