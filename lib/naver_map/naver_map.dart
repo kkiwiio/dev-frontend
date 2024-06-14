@@ -13,7 +13,6 @@ class NaverMapApp extends StatelessWidget {
     );
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Naver Map')),
       body: NaverMap(
         options: const NaverMapViewOptions(
           zoomGesturesEnable: true,
