@@ -74,7 +74,6 @@ List<CampusMarker> allMarkers = [
       missionDescription: '아래와 같은 구도로 사진을 찍으세요',
       imagePath: '',
       missionImage: 'assets/images/mission.jpg'),
-
 ];
 
 Set<NMarker> buildCampusMarkers(BuildContext context) {
@@ -93,4 +92,3 @@ Set<NMarker> buildCampusMarkers(BuildContext context) {
     return marker;
   }).toSet();
 }
-
