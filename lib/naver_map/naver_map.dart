@@ -22,7 +22,6 @@ class _NaverMapAppState extends State<NaverMapApp> {
     );
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Naver Map')),
       body: NaverMap(
         options: const NaverMapViewOptions(
           zoomGesturesEnable: true,
