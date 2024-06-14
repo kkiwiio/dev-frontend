@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import './save_image.dart';
+import 'package:image_picker/image_picker.dart';
 
 class DisplayImageScreen extends StatelessWidget {
   final String imagePath;
@@ -26,6 +27,35 @@ class DisplayImageScreen extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
+                ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor: WidgetStateProperty.all(
+                        const Color.fromARGB(255, 108, 189, 202)),
+                  ),
+                  onPressed: () async {
+                    final picker = ImagePicker();
+                    final pickedFile =
+                        await picker.pickImage(source: ImageSource.camera);
+
+                    if (pickedFile != null) {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              DisplayImageScreen(imagePath: pickedFile.path),
+                        ),
+                      );
+                    }
+                  },
+                  child: const Text(
+                    '다시찍기',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'GmarketSansTTFBol',
+                      fontSize: 14,
+                    ),
+                  ),
+                ),
                 ElevatedButton(
                   style: ButtonStyle(
                     backgroundColor: WidgetStateProperty.all(
