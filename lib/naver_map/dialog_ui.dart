@@ -93,6 +93,7 @@ void showMarkerDialog(BuildContext context, CampusMarker campusmarker) {
                         return MissionDialog(
                           missionDescription: campusmarker.missionDescription,
                           missionImage: campusmarker.missionImage,
+                          idNumber: campusmarker.idNumber,
                         );
                       },
                     );

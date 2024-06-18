@@ -1,10 +1,8 @@
 import "dart:developer";
-
 import "package:flutter_naver_map/flutter_naver_map.dart";
 import "package:flutter/material.dart";
 import "package:project_heck/naver_map/campusmarker_model.dart";
 import "package:project_heck/naver_map/dialog_ui.dart";
-import "package:geolocator/geolocator.dart";
 
 const icon = NOverlayImage.fromAssetImage('assets/images/pin2.png');
 
