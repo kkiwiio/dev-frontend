@@ -13,31 +13,31 @@ List<CampusMarker> allMarkers = [
       buildingName: '구두인관',
       buildingDescription: '신학연구원과 구로마을 대학이 존재한다.',
       missionDescription: '아래와 같은 구도로 사진을 찍으세요',
-      imagePath: 'assets/images/guduin.jpg',
+      imagePath: 'assets/images/building/1.jpg',
       missionImage: 'assets/images/mission.jpg'),
   CampusMarker(
       idNumber: "2", //새천년관
       position: const NLatLng(37.48823757, 126.82539904),
       buildingName: '새천년관',
-      buildingDescription: '인문사회건물로 건강증진센터와,인권센터,학식당이 존재한다.',
+      buildingDescription: '인문사회건물로 건강증진센터와,\n인권센터,학식당이 존재한다.',
       missionDescription: '아래와 같은 구도로 사진을 찍으세요',
-      imagePath: 'assets/images/guduin.jpg',
+      imagePath: 'assets/images/building/2.jpg',
       missionImage: 'assets/images/mission.jpg'),
   CampusMarker(
       idNumber: "3", //학관
       position: const NLatLng(37.4877332, 126.82487129),
       buildingName: '학관',
-      buildingDescription: '학생회관으로 동아리실과 학생회실이 존재한다.',
+      buildingDescription: '학생회관으로 \n동아리실과 학생회실이 존재한다.',
       missionDescription: '다음 정답으로 올바른 것을 고르세요',
-      imagePath: 'assets/images/guduin.jpg',
+      imagePath: 'assets/images/1.jpg',
       missionImage: 'assets/images/mission.jpg'),
   CampusMarker(
       idNumber: "4", //승연관
       position: const NLatLng(37.48749122, 126.82580057),
       buildingName: '승연관',
-      buildingDescription: '대학본부로 교무처와 총무처 등이 존재한다.',
+      buildingDescription: '대학본부로 \n교무처와 총무처 등이 존재한다.',
       missionDescription: '아래와 같은 구도로 사진을 찍으세요',
-      imagePath: 'assets/images/guduin.jpg',
+      imagePath: 'assets/images/building/4.jpg',
       missionImage: 'assets/images/mission.jpg'),
   CampusMarker(
       idNumber: "5", //미가엘+ 이천환
@@ -46,7 +46,7 @@ List<CampusMarker> allMarkers = [
       buildingDescription:
           '미가엘관:밥풀,헬스장,멋짐,기숙사가 존재한다. \n이천환기념관:이공계건물, 실습실이 존재한다.',
       missionDescription: '아래와 같은 구도로 사진을 찍으세요',
-      imagePath: 'assets/images/guduin.jpg',
+      imagePath: 'assets/images/building/1.jpg',
       missionImage: 'assets/images/mission.jpg'),
   CampusMarker(
       idNumber: "6", //도서관
@@ -54,7 +54,7 @@ List<CampusMarker> allMarkers = [
       buildingName: '중앙도서관',
       buildingDescription: '성공회역사자료관과 세미나실이 존재한다. ',
       missionDescription: '아래와 같은 구도로 사진을 찍으세요',
-      imagePath: 'assets/images/guduin.jpg',
+      imagePath: 'assets/images/building/6.jpg',
       missionImage: 'assets/images/mission.jpg'),
   CampusMarker(
       idNumber: "7", //월당관
@@ -62,7 +62,7 @@ List<CampusMarker> allMarkers = [
       buildingName: '월당관',
       buildingDescription: '수업지원AS실과 열람실이 존재한다.',
       missionDescription: '아래와 같은 구도로 사진을 찍으세요',
-      imagePath: 'assets/images/guduin.jpg',
+      imagePath: 'assets/images/building/1.jpg',
       missionImage: 'assets/images/mission.jpg'),
   CampusMarker(
       idNumber: "8", //일만관
@@ -70,7 +70,7 @@ List<CampusMarker> allMarkers = [
       buildingName: '일만관',
       buildingDescription: '교수연구실과 컴퓨터 실습실이 존재한다.',
       missionDescription: '아래와 같은 구도로 사진을 찍으세요',
-      imagePath: '',
+      imagePath: 'assets/images/building/8.jpg',
       missionImage: 'assets/images/mission.jpg'),
 ];
 

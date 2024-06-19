@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import '../camera/display.dart';
+import '../camera/display_image_screen.dart';
 
 class MissionDialog extends StatelessWidget {
   final String missionDescription;
