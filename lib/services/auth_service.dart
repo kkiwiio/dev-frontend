@@ -4,7 +4,7 @@ import 'dart:convert';
 class AuthService {
   Future<String?> register(String name, String email, String password,
       {int reward = 0}) async {
-    const url = 'http://10.0.2.2:8088/api/users/signup';
+    const url = 'http://192.168.1.79:8080/api/users/signup';
     final response = await http.post(
       Uri.parse(url),
       headers: <String, String>{
@@ -26,7 +26,7 @@ class AuthService {
   }
 
   Future<String?> login(String email, String password) async {
-    const url = 'http://10.0.2.2:8088/api/users/login';
+    const url = 'http://192.168.1.79:8080/api/users/login';
     final response = await http.post(
       Uri.parse(url),
       headers: <String, String>{

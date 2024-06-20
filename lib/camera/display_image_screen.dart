@@ -58,7 +58,9 @@ class _DisplayImageScreenState extends State<DisplayImageScreen> {
         showMissionFailureDialog(context);
       }
     } else {
-      showUploadFailureDialog(context);
+      // showUploadFailureDialog(context);
+      String errorMessage = response.body;
+      showUploadFailureDialog(context, errorMessage);
     }
   }
 
