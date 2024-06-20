@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../side_bar/image_transform.dart';
 import '../login/login.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import './image_screen/image_storage.dart';    // ImageStorageScreen을 import
 
 class Sidebar extends StatefulWidget {
   final int rewardPoints;
@@ -79,7 +80,10 @@ class _SidebarState extends State<Sidebar> {
               ),
             ),
             onTap: () {
-              // 사이드바 아이템 클릭 시 동작
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ImageStorageScreen()),
+              );
             },
             trailing: const Icon(Icons.add),
           ),
@@ -101,9 +105,9 @@ class _SidebarState extends State<Sidebar> {
                 context,
                 MaterialPageRoute(
                     builder: (context) => ImageTransform(
-                          rewardPoints: rewardPoints,
-                          onPointsUpdated: widget.onPointsUpdated,
-                        )),
+                      rewardPoints: rewardPoints,
+                      onPointsUpdated: widget.onPointsUpdated,
+                    )),
               ).then((_) {
                 loadRewardPoints();
               });
