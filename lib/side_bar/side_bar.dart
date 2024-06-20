@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 import '../side_bar/image_transform.dart';
 import '../login/login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:project_heck/naver_map/quiz.dart';
 
 class Sidebar extends StatefulWidget {
   final int rewardPoints;
   final VoidCallback onPointsUpdated;
+  final VoidCallback QonpointsUpdated;
 
   const Sidebar(
-      {super.key, required this.rewardPoints, required this.onPointsUpdated});
+      {super.key, required this.rewardPoints, required this.onPointsUpdated, required this.QonpointsUpdated});
   @override
   _SidebarState createState() => _SidebarState();
 }
@@ -28,6 +30,7 @@ class _SidebarState extends State<Sidebar> {
       rewardPoints = prefs.getInt('rewardPoints') ?? 0;
     });
     widget.onPointsUpdated();
+    widget.QonpointsUpdated();
   }
 
   @override
