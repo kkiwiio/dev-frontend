@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:project_heck/naver_map/quiz_result.dart';
 
 
 class QuizScreen extends StatefulWidget {
@@ -114,17 +115,6 @@ class _QuizScreenState extends State<QuizScreen> {
 
   void _checkAnswer(BuildContext context, String userAnswer, String correctAnswer, String explanation) async {
     bool isCorrect = userAnswer == correctAnswer;
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    rewardPoints = prefs.getInt('rewardPoints') ?? 0;
-
-
-    if (isCorrect) {
-      setState((){
-        rewardPoints += 1;
-      });
-    } else{
-      rewardPoints = rewardPoints;
-    }
 
     showDialog(
       context: context,
@@ -145,5 +135,31 @@ class _QuizScreenState extends State<QuizScreen> {
         );
       },
     );
+  }
+  void loadRewardPoints() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      rewardPoints = prefs.getInt('rewardPoints') ?? 0;
+    });
+  }
+
+  void saveRewardPoints(int points) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setInt('rewardPoints', points);
+    setState(() {
+      rewardPoints = points;
+    });
+  }
+  void submitscore(BuildContext context, String userAnswer, String correctAnswer, String explanation) async {
+    bool isCorrect = userAnswer == correctAnswer;
+
+
+    if (isCorrect) {
+        showQuizSuccessDialog(context, rewardPoints + 1);
+        saveRewardPoints(rewardPoints + 1);
+      } else {
+        showQuizFailureDialog(context);
+      }
+
   }
 }
