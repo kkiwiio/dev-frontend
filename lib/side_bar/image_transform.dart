@@ -4,11 +4,14 @@ import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
+import './transform_image_save.dart';
 
 class ImageTransform extends StatefulWidget {
   final int rewardPoints;
+  final VoidCallback onPointsUpdated;
 
-  const ImageTransform({Key? key, required this.rewardPoints}) : super(key: key);
+  const ImageTransform(
+      {super.key, required this.rewardPoints, required this.onPointsUpdated});
 
   @override
   _ImageTransformState createState() => _ImageTransformState();
@@ -48,10 +51,12 @@ class _ImageTransformState extends State<ImageTransform> {
     setState(() {
       rewardPoints = points;
     });
+    widget.onPointsUpdated();
   }
 
   Future<void> _pickImage() async {
-    final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+    final pickedFile =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
       setState(() {
@@ -71,6 +76,8 @@ class _ImageTransformState extends State<ImageTransform> {
           _transformedImageUrl = transformedUrl;
         });
         saveRewardPoints(rewardPoints - 1);
+
+        await TransformImageSave.saveImage(_transformedImageUrl!);
       } else {
         showDialog(
           context: context,
@@ -104,13 +111,13 @@ class _ImageTransformState extends State<ImageTransform> {
   }
 
   Future<http.Response> _uploadImage(File imageFile) async {
-    final url = 'http://10.0.2.2:8081/model/transform';
+    final url = 'http://10.0.2.2:8081/image/transform?user_email=$userEmail';
 
     var request = http.MultipartRequest('POST', Uri.parse(url));
     print(url);
-    request.fields['userEmail'] = userEmail;
+    request.fields['user_Email'] = userEmail;
     final imageBytes = await imageFile.readAsBytes();
-    final fileName = 'image.jpg';
+    const fileName = 'image.jpg';
     request.files.add(
       http.MultipartFile.fromBytes(
         'image',
@@ -124,13 +131,16 @@ class _ImageTransformState extends State<ImageTransform> {
     final statusCode = response.statusCode;
     print('Response status code: $statusCode');
 
-    final responseBody = await response.stream.bytesToString(); // 응답 본문을 문자열로 가져옴
+    final responseBody =
+        await response.stream.bytesToString(); // 응답 본문을 문자열로 가져옴
     print('Response body: $responseBody'); // 응답 본문(URL) 출력
 
     if (statusCode == 200) {
-      return http.Response(responseBody, statusCode); // 성공적인 응답인 경우 HTTP 응답 객체 반환
+      return http.Response(
+          responseBody, statusCode); // 성공적인 응답인 경우 HTTP 응답 객체 반환
     } else {
-      return http.Response(responseBody, statusCode); // 실패한 응답인 경우에도 HTTP 응답 객체 반환
+      return http.Response(
+          responseBody, statusCode); // 실패한 응답인 경우에도 HTTP 응답 객체 반환
     }
   }
 
@@ -151,29 +161,43 @@ class _ImageTransformState extends State<ImageTransform> {
             const SizedBox(height: 20),
             _selectedImage != null
                 ? Image.file(
-              _selectedImage!,
-              height: 200,
-            )
+                    _selectedImage!,
+                    height: 200,
+                  )
                 : const SizedBox(),
             const SizedBox(height: 20),
             _selectedImage != null
                 ? ElevatedButton(
-              onPressed: _transformImage,
-              child: const Text('변환하기'),
-            )
+                    onPressed: _transformImage,
+                    child: const Text('변환하기'),
+                  )
                 : const SizedBox(),
             const SizedBox(height: 20),
             _transformedImageUrl != null
                 ? Image.network(
-              _transformedImageUrl!,
-              height: 200,
-            )
+                    _transformedImageUrl!,
+                    height: 200,
+                  )
+                : const SizedBox(),
+            const SizedBox(height: 20),
+            _transformedImageUrl != null
+                ? ElevatedButton(
+                    onPressed: () => _saveImage(_transformedImageUrl!),
+                    child: const Text('이미지 저장하기'),
+                  )
                 : const SizedBox(),
             const SizedBox(height: 20),
             Text('남은 포인트: $rewardPoints'),
           ],
         ),
       ),
+    );
+  }
+
+  Future<void> _saveImage(String imageUrl) async {
+    await TransformImageSave.saveImage(imageUrl);
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('이미지가 갤러리에 저장되었습니다.')),
     );
   }
 }

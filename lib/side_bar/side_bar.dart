@@ -5,9 +5,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class Sidebar extends StatefulWidget {
   final int rewardPoints;
+  final VoidCallback onPointsUpdated;
 
-  const Sidebar({Key? key, required this.rewardPoints}) : super(key: key);
-
+  const Sidebar(
+      {super.key, required this.rewardPoints, required this.onPointsUpdated});
   @override
   _SidebarState createState() => _SidebarState();
 }
@@ -26,6 +27,7 @@ class _SidebarState extends State<Sidebar> {
     setState(() {
       rewardPoints = prefs.getInt('rewardPoints') ?? 0;
     });
+    widget.onPointsUpdated();
   }
 
   @override
@@ -97,7 +99,11 @@ class _SidebarState extends State<Sidebar> {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => ImageTransform(rewardPoints: rewardPoints)),
+                MaterialPageRoute(
+                    builder: (context) => ImageTransform(
+                          rewardPoints: rewardPoints,
+                          onPointsUpdated: widget.onPointsUpdated,
+                        )),
               ).then((_) {
                 loadRewardPoints();
               });
