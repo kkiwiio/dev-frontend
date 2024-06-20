@@ -4,7 +4,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:project_heck/naver_map/quiz_result.dart';
 
 class QuizScreen extends StatefulWidget {
-  const QuizScreen({super.key});
+
+  const QuizScreen({super.key})
 
   @override
   _QuizScreenState createState() => _QuizScreenState();
@@ -162,4 +163,3 @@ class _QuizScreenState extends State<QuizScreen> {
       showQuizFailureDialog(context);
     }
   }
-}
