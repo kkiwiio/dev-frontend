@@ -4,14 +4,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../side_bar/image_transform.dart';
 import '../login/login.dart';
 import './image_screen/image_storage.dart';    // ImageStorageScreen을 import
+import 'package:project_heck/naver_map/quiz_score.dart';
 
 class Sidebar extends StatefulWidget {
   final int rewardPoints;
   final VoidCallback onPointsUpdated;
-  final VoidCallback QonpointsUpdated;
 
   const Sidebar(
-      {super.key, required this.rewardPoints, required this.onPointsUpdated, required this.QonpointsUpdated});
+      {super.key, required this.rewardPoints, required this.onPointsUpdated});
   @override
   _SidebarState createState() => _SidebarState();
 }
@@ -31,7 +31,6 @@ class _SidebarState extends State<Sidebar> {
       rewardPoints = prefs.getInt('rewardPoints') ?? 0;
     });
     widget.onPointsUpdated();
-    widget.QonpointsUpdated();
   }
 
   @override

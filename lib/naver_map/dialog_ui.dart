@@ -5,6 +5,7 @@ import 'package:project_heck/naver_map/mission.dart';
 import 'package:project_heck/naver_map/quiz.dart';
 import 'package:project_heck/naver_map/maker_campus.dart';
 
+
 class TopRoundedClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
@@ -98,7 +99,7 @@ void showMarkerDialog(BuildContext context, CampusMarker campusmarker) {
                           );
                         },
                       );
-                    } else {
+                    }  else {
                       Navigator.of(context).pop();
                       showDialog(
                         context: context,
