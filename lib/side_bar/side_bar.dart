@@ -1,16 +1,16 @@
+
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../side_bar/image_transform.dart';
 import '../login/login.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:project_heck/naver_map/quiz.dart';
+import './image_screen/image_storage.dart';    // ImageStorageScreen을 import
 
 class Sidebar extends StatefulWidget {
   final int rewardPoints;
   final VoidCallback onPointsUpdated;
-  final VoidCallback QonpointsUpdated;
 
   const Sidebar(
-      {super.key, required this.rewardPoints, required this.onPointsUpdated, required this.QonpointsUpdated});
+      {super.key, required this.rewardPoints, required this.onPointsUpdated});
   @override
   _SidebarState createState() => _SidebarState();
 }
@@ -30,7 +30,6 @@ class _SidebarState extends State<Sidebar> {
       rewardPoints = prefs.getInt('rewardPoints') ?? 0;
     });
     widget.onPointsUpdated();
-    widget.QonpointsUpdated();
   }
 
   @override
@@ -82,7 +81,10 @@ class _SidebarState extends State<Sidebar> {
               ),
             ),
             onTap: () {
-              // 사이드바 아이템 클릭 시 동작
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ImageStorageScreen()),
+              );
             },
             trailing: const Icon(Icons.add),
           ),
@@ -104,9 +106,9 @@ class _SidebarState extends State<Sidebar> {
                 context,
                 MaterialPageRoute(
                     builder: (context) => ImageTransform(
-                          rewardPoints: rewardPoints,
-                          onPointsUpdated: widget.onPointsUpdated,
-                        )),
+                      rewardPoints: rewardPoints,
+                      onPointsUpdated: widget.onPointsUpdated,
+                    )),
               ).then((_) {
                 loadRewardPoints();
               });
