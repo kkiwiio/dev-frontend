@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
+import 'package:shared_preferences/shared_preferences.dart';
+
 
 class QuizScreen extends StatefulWidget {
   @override
@@ -7,6 +9,7 @@ class QuizScreen extends StatefulWidget {
 }
 
 class _QuizScreenState extends State<QuizScreen> {
+  int rewardPoints = 0;
   final Map<String, List<Map<String, dynamic>>> quizMap = {
     '상': [
       {
@@ -109,8 +112,19 @@ class _QuizScreenState extends State<QuizScreen> {
     );
   }
 
-  void _checkAnswer(BuildContext context, String userAnswer, String correctAnswer, String explanation) {
+  void _checkAnswer(BuildContext context, String userAnswer, String correctAnswer, String explanation) async {
     bool isCorrect = userAnswer == correctAnswer;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    rewardPoints = prefs.getInt('rewardPoints') ?? 0;
+
+
+    if (isCorrect) {
+      setState((){
+        rewardPoints += 1;
+      });
+    } else{
+      rewardPoints = rewardPoints;
+    }
 
     showDialog(
       context: context,

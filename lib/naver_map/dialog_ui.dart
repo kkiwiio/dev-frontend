@@ -120,16 +120,6 @@ void showMarkerDialog(BuildContext context, CampusMarker campusmarker) {
 // }
 
                   onPressed: () {
-                    Navigator.of(context).pop();
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context){
-                        return MissionDialog(
-                          missionDescription: campusmarker.missionDescription,
-                          missionImage: campusmarker.missionImage,
-                        );
-                      },
-                    );
                     if (campusmarker.buildingName == '월당관') {
                       Navigator.of(context).pop();
                       showDialog(
