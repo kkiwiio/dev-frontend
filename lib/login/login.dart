@@ -114,58 +114,29 @@ class _LogInState extends State<LogIn> {
     );
   }
 
-  // Widget _buildLoginButton(BuildContext context) {
-  //   return SizedBox(
-  //     width: 307,
-  //     height: 47,
-  //     child: ElevatedButton(
-  //       onPressed: () async {
-  //         final response = await _authService.login(
-  //           emailController.text,
-  //           passwordController.text,
-  //         );
-  //
-  //         if (response == "Login successful") {
-  //           SharedPreferences prefs = await SharedPreferences.getInstance();
-  //           await prefs.setString('userEmail', emailController.text);
-  //           Navigator.pushReplacement(
-  //             context,
-  //             MaterialPageRoute(builder: (context) => const NaverMapApp()),
-  //           );
-  //         } else {
-  //           ScaffoldMessenger.of(context).showSnackBar(
-  //             SnackBar(content: Text(response ?? 'An error occurred')),
-  //           );
-  //         }
-  //       },
-  //       style: ButtonStyle(
-  //         backgroundColor: WidgetStateProperty.all(const Color(0xFFF4FFCC)),
-  //         shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-  //           RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-  //         ),
-  //       ),
-  //       child: const Text(
-  //         '시작하기',
-  //         style: TextStyle(
-  //           color: Color(0xff595959),
-  //           fontFamily: 'GmarketSansTTFMedium',
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
-
   Widget _buildLoginButton(BuildContext context) {
     return SizedBox(
       width: 307,
       height: 47,
       child: ElevatedButton(
-        onPressed: () {
-          // 임시로 로그인 버튼을 누르면 바로 다음 화면으로 이동하도록 수정
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => const NaverMapApp()),
+        onPressed: () async {
+          final response = await _authService.login(
+            emailController.text,
+            passwordController.text,
           );
+
+          if (response == "Login successful") {
+            SharedPreferences prefs = await SharedPreferences.getInstance();
+            await prefs.setString('userEmail', emailController.text);
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => const NaverMapApp()),
+            );
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(response ?? 'An error occurred')),
+            );
+          }
         },
         style: ButtonStyle(
           backgroundColor: WidgetStateProperty.all(const Color(0xFFF4FFCC)),
@@ -183,6 +154,35 @@ class _LogInState extends State<LogIn> {
       ),
     );
   }
+
+  // Widget _buildLoginButton(BuildContext context) {
+  //   return SizedBox(
+  //     width: 307,
+  //     height: 47,
+  //     child: ElevatedButton(
+  //       onPressed: () {
+  //         // 임시로 로그인 버튼을 누르면 바로 다음 화면으로 이동하도록 수정
+  //         Navigator.pushReplacement(
+  //           context,
+  //           MaterialPageRoute(builder: (context) => const NaverMapApp()),
+  //         );
+  //       },
+  //       style: ButtonStyle(
+  //         backgroundColor: WidgetStateProperty.all(const Color(0xFFF4FFCC)),
+  //         shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+  //           RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+  //         ),
+  //       ),
+  //       child: const Text(
+  //         '시작하기',
+  //         style: TextStyle(
+  //           color: Color(0xff595959),
+  //           fontFamily: 'GmarketSansTTFMedium',
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
   Widget _buildSignUpButton(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 10.0),

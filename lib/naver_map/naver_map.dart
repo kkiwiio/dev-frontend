@@ -67,7 +67,7 @@ class _NaverMapAppState extends State<NaverMapApp> {
                       children: [
                         Image.asset(
                           'assets/images/transform.png',
-                          width:60,
+                          width: 60,
                           height: 60,
                         ),
                         const SizedBox(height: 5),
@@ -101,6 +101,9 @@ class _NaverMapAppState extends State<NaverMapApp> {
           return Sidebar(
             rewardPoints: rewardPoints,
             onPointsUpdated: () {
+              setState(() {});
+            },
+            QonpointsUpdated: () {
               setState(() {});
             },
           );

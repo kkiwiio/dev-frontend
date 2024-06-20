@@ -94,8 +94,7 @@ void showMarkerDialog(BuildContext context, CampusMarker campusmarker) {
                       showDialog(
                         context: context,
                         builder: (BuildContext context) {
-                          return QuizScreen(
-                          );
+                          return const QuizScreen();
                         },
                       );
                     } else {
@@ -110,7 +109,7 @@ void showMarkerDialog(BuildContext context, CampusMarker campusmarker) {
                           );
                         },
                       );
-                    };
+                    }
                   },
                   child: const Text(
                     "미션하기",
