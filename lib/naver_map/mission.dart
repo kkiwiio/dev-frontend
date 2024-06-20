@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import '../camera/display.dart';
+import '../camera/display_image_screen.dart';
 
 class MissionDialog extends StatelessWidget {
   final String missionDescription;
   final String missionImage;
+  final String idNumber;
   final ImagePicker _picker = ImagePicker();
   MissionDialog({
     super.key,
     required this.missionDescription,
     required this.missionImage,
+    required this.idNumber,
   });
 
   Future<void> _takePicture(BuildContext context) async {
@@ -21,7 +23,8 @@ class MissionDialog extends StatelessWidget {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => DisplayImageScreen(imagePath: image.path),
+          builder: (context) =>
+              DisplayImageScreen(imagePath: image.path, idNumber: idNumber),
         ),
       );
     } else {
