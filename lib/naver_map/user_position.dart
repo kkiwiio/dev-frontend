@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:location/location.dart';
 
@@ -37,7 +36,8 @@ class LocationService {
         id: 'currentLocation',
         position: NLatLng(locationData.latitude!, locationData.longitude!),
         size: const NSize(36, 36), // 마커 크기 설정
-        icon: NOverlayImage.fromAssetImage('assets/images/current_location.png'),
+        icon: const NOverlayImage.fromAssetImage(
+            'assets/images/current_location.png'),
       );
 
       mapController.updateCamera(
@@ -57,7 +57,8 @@ class LocationService {
           id: 'currentLocation',
           position: NLatLng(res.latitude!, res.longitude!),
           size: const NSize(36, 36), // 마커 크기 설정
-          icon: NOverlayImage.fromAssetImage('assets/images/current_location.png'),
+          icon: const NOverlayImage.fromAssetImage(
+              'assets/images/current_location.png'),
         );
         mapController.addOverlay(_currentLocationMarker!);
       });

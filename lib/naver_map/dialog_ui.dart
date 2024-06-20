@@ -73,11 +73,11 @@ void showMarkerDialog(BuildContext context, CampusMarker campusmarker) {
                 campusmarker.buildingDescription,
                 style: const TextStyle(
                   fontFamily: 'GmarketSansTTFMedium',
-                  fontSize: 13,
+                  fontSize: 12,
                 ),
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 15),
+              const SizedBox(height: 20),
               SizedBox(
                 width: 120,
                 height: 35,
@@ -88,6 +88,37 @@ void showMarkerDialog(BuildContext context, CampusMarker campusmarker) {
                       borderRadius: BorderRadius.circular(20),
                     ),
                   ),
+//                   onPressed: () {
+//                     Navigator.of(context).pop();
+//                     showDialog(
+//                       context: context,
+//                       builder: (BuildContext context) {
+//                         return MissionDialog(
+//                           missionDescription: campusmarker.missionDescription,
+//                           missionImage: campusmarker.missionImage,
+//                           idNumber: campusmarker.idNumber,
+//                         );
+//                       },
+//                     );
+//                   },
+//                   child: const Text(
+//                     "미션하기",
+//                     style: TextStyle(
+//                       color: Color.fromARGB(255, 0, 0, 0),
+//                       fontFamily: 'GmarketSansTTFBol',
+//                       fontSize: 14,
+//                     ),
+//                   ),
+//                 ),
+//               ),
+//             ],
+//           ),
+//         ),
+//       );
+//     },
+//   );
+// }
+
                   onPressed: () {
                     Navigator.of(context).pop();
                     showDialog(
@@ -99,6 +130,28 @@ void showMarkerDialog(BuildContext context, CampusMarker campusmarker) {
                         );
                       },
                     );
+                    if (campusmarker.buildingName == '월당관') {
+                      Navigator.of(context).pop();
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return QuizScreen(
+                          );
+                        },
+                      );
+                    } else {
+                      Navigator.of(context).pop();
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return MissionDialog(
+                            missionDescription: campusmarker.missionDescription,
+                            missionImage: campusmarker.missionImage,
+                            idNumber: campusmarker.idNumber,
+                          );
+                        },
+                      );
+                    };
                   },
                   child: const Text(
                     "미션하기",
