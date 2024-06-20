@@ -3,8 +3,9 @@ import 'dart:math';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:project_heck/naver_map/quiz_result.dart';
 
-
 class QuizScreen extends StatefulWidget {
+
+  const QuizScreen({super.key})
 
   @override
   _QuizScreenState createState() => _QuizScreenState();
@@ -43,14 +44,14 @@ class _QuizScreenState extends State<QuizScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('퀴즈'),
+        title: const Text('퀴즈'),
       ),
       body: Center(
         child: ElevatedButton(
           onPressed: () {
             _showRandomQuiz(context);
           },
-          child: Text('퀴즈 시작하기'),
+          child: const Text('퀴즈 시작하기'),
         ),
       ),
     );
@@ -68,45 +69,34 @@ class _QuizScreenState extends State<QuizScreen> {
       difficulty = '하';
     }
 
-    final randomQuiz = quizMap[difficulty]![random.nextInt(quizMap[difficulty]!.length)];
+    final randomQuiz =
+        quizMap[difficulty]![random.nextInt(quizMap[difficulty]!.length)];
 
-    _showQuizDialog(
-        context,
-        difficulty,
-        randomQuiz['질문'],
-        randomQuiz['정답'],
-        randomQuiz['선택지'],
-        randomQuiz['해설']
-    );
+    _showQuizDialog(context, difficulty, randomQuiz['질문'], randomQuiz['정답'],
+        randomQuiz['선택지'], randomQuiz['해설']);
   }
 
-  void _showQuizDialog(
-      BuildContext context,
-      String difficulty,
-      String question,
-      String answer,
-      List<String> options,
-      String explanation
-      ) {
+  void _showQuizDialog(BuildContext context, String difficulty, String question,
+      String answer, List<String> options, String explanation) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('퀴즈'),
+          title: const Text('퀴즈'),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(question),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               ...options.map((option) => RadioListTile<String>(
-                title: Text(option),
-                value: option,
-                groupValue: null,
-                onChanged: (value) {
-                  Navigator.of(context).pop();
-                  _checkAnswer(context, value!, answer, explanation);
-                },
-              )),
+                    title: Text(option),
+                    value: option,
+                    groupValue: null,
+                    onChanged: (value) {
+                      Navigator.of(context).pop();
+                      _checkAnswer(context, value!, answer, explanation);
+                    },
+                  )),
             ],
           ),
         );
@@ -114,20 +104,29 @@ class _QuizScreenState extends State<QuizScreen> {
     );
   }
 
-  void _checkAnswer(BuildContext context, String userAnswer, String correctAnswer, String explanation) async {
+  void _checkAnswer(BuildContext context, String userAnswer,
+      String correctAnswer, String explanation) async {
     bool isCorrect = userAnswer == correctAnswer;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    rewardPoints = prefs.getInt('rewardPoints') ?? 0;
+
+    if (isCorrect) {
+      setState(() {
+        rewardPoints += 1;
+      });
+    } else {
+      rewardPoints = rewardPoints;
+    }
 
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text(isCorrect ? '정답' : '오답'),
-          content: Text(isCorrect
-              ? '정답입니다!\n\n해설: $explanation'
-              : '오답입니다.'),
+          content: Text(isCorrect ? '정답입니다!\n\n해설: $explanation' : '오답입니다.'),
           actions: <Widget>[
             TextButton(
-              child: Text('확인'),
+              child: const Text('확인'),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -138,4 +137,29 @@ class _QuizScreenState extends State<QuizScreen> {
     );
   }
 
-}
+  void loadRewardPoints() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      rewardPoints = prefs.getInt('rewardPoints') ?? 0;
+    });
+  }
+
+  void saveRewardPoints(int points) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setInt('rewardPoints', points);
+    setState(() {
+      rewardPoints = points;
+    });
+  }
+
+  void submitscore(BuildContext context, String userAnswer,
+      String correctAnswer, String explanation) async {
+    bool isCorrect = userAnswer == correctAnswer;
+
+    if (isCorrect) {
+      showQuizSuccessDialog(context, rewardPoints + 1);
+      saveRewardPoints(rewardPoints + 1);
+    } else {
+      showQuizFailureDialog(context);
+    }
+  }
