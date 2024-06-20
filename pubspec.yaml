@@ -34,8 +34,8 @@ dependencies:
   flutter_naver_map: ^1.2.2+flutter3.22
   http: ^1.2.1
   introduction_screen: ^3.1.14
-  shared_preferences: ^2.1.0 # 공유저장소 사용을 하기 위함(자동 로그인)
-  crypto: ^3.0.3 # 정보 암호화를 위함 (사용자 비밀번호 암호화)
+  shared_preferences: ^2.1.0
+  crypto: ^3.0.3
   permission_handler: ^11.3.1
   camera: ^0.11.0
   image_gallery_saver: ^2.0.3

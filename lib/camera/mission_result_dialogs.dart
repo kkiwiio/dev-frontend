@@ -48,7 +48,8 @@ void showMissionFailureDialog(BuildContext context) {
   );
 }
 
-void showUploadFailureDialog(BuildContext context) {
+void showUploadFailureDialog(BuildContext context, String errorMessage) {
+  print('이미지 업로드 실패: $errorMessage');
   showDialog(
     context: context,
     builder: (BuildContext context) {

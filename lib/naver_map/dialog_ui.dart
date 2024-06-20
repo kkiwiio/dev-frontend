@@ -89,37 +89,6 @@ void showMarkerDialog(BuildContext context, CampusMarker campusmarker) {
                       borderRadius: BorderRadius.circular(20),
                     ),
                   ),
-//                   onPressed: () {
-//                     Navigator.of(context).pop();
-//                     showDialog(
-//                       context: context,
-//                       builder: (BuildContext context) {
-//                         return MissionDialog(
-//                           missionDescription: campusmarker.missionDescription,
-//                           missionImage: campusmarker.missionImage,
-//                           idNumber: campusmarker.idNumber,
-//                         );
-//                       },
-//                     );
-//                   },
-//                   child: const Text(
-//                     "미션하기",
-//                     style: TextStyle(
-//                       color: Color.fromARGB(255, 0, 0, 0),
-//                       fontFamily: 'GmarketSansTTFBol',
-//                       fontSize: 14,
-//                     ),
-//                   ),
-//                 ),
-//               ),
-//             ],
-//           ),
-//         ),
-//       );
-//     },
-//   );
-// }
-
                   onPressed: () {
                     if (campusmarker.buildingName == '월당관') {
                       Navigator.of(context).pop();

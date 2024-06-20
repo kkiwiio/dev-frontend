@@ -1,3 +1,4 @@
+
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -67,23 +68,39 @@ class _ImageTransformState extends State<ImageTransform> {
   }
 
   Future<void> _transformImage() async {
-    if (_selectedImage != null && rewardPoints > 0) {
-      final response = await _uploadImage(_selectedImage!);
+    if (_selectedImage != null) {
+      if (rewardPoints > 0) {
+        final response = await _uploadImage(_selectedImage!);
 
-      if (response.statusCode == 200) {
-        final transformedUrl = response.body;
-        setState(() {
-          _transformedImageUrl = transformedUrl;
-        });
-        saveRewardPoints(rewardPoints - 1);
+        if (response.statusCode == 200) {
+          final transformedUrl = response.body;
+          setState(() {
+            _transformedImageUrl = transformedUrl;
+          });
+          saveRewardPoints(rewardPoints - 1);
 
-        await TransformImageSave.saveImage(_transformedImageUrl!);
+          await TransformImageSave.saveImage(_transformedImageUrl!);
+        } else {
+          showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+              title: const Text('알림'),
+              content: const Text('이미지 변환에 실패했습니다.'),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text('확인'),
+                ),
+              ],
+            ),
+          );
+        }
       } else {
         showDialog(
           context: context,
           builder: (context) => AlertDialog(
             title: const Text('알림'),
-            content: const Text('이미지 변환에 실패했습니다.'),
+            content: const Text('포인트가 부족합니다.'),
             actions: [
               TextButton(
                 onPressed: () => Navigator.pop(context),
@@ -93,29 +110,16 @@ class _ImageTransformState extends State<ImageTransform> {
           ),
         );
       }
-    } else if (rewardPoints <= 0) {
-      showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: const Text('알림'),
-          content: const Text('포인트가 부족합니다.'),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text('확인'),
-            ),
-          ],
-        ),
-      );
     }
   }
 
   Future<http.Response> _uploadImage(File imageFile) async {
+    // final url = 'http://192.168.1.79:8080/image/transform?user_email=$userEmail'; 실제 기기 테스트용
     final url = 'http://10.0.2.2:8081/image/transform?user_email=$userEmail';
 
     var request = http.MultipartRequest('POST', Uri.parse(url));
     print(url);
-    request.fields['user_Email'] = userEmail;
+    request.fields['userId'] = userEmail;
     final imageBytes = await imageFile.readAsBytes();
     const fileName = 'image.jpg';
     request.files.add(

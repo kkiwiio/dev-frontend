@@ -4,7 +4,7 @@ import "package:flutter/material.dart";
 import "package:project_heck/naver_map/campusmarker_model.dart";
 import "package:project_heck/naver_map/dialog_ui.dart";
 
-const icon = NOverlayImage.fromAssetImage('assets/images/pin2.png');
+const icon = NOverlayImage.fromAssetImage('assets/images/blue_pin.png',);
 
 List<CampusMarker> allMarkers = [
   CampusMarker(
@@ -29,7 +29,7 @@ List<CampusMarker> allMarkers = [
       buildingName: '학관',
       buildingDescription: '학생회관으로 \n동아리실과 학생회실이 존재한다.',
       missionDescription: '다음 정답으로 올바른 것을 고르세요',
-      imagePath: 'assets/images/1.jpg',
+      imagePath: 'assets/images/building/3.jpg',
       missionImage: 'assets/images/mission.jpg'),
   CampusMarker(
       idNumber: "4", //승연관
@@ -46,7 +46,7 @@ List<CampusMarker> allMarkers = [
       buildingDescription:
           '미가엘관:밥풀,헬스장,멋짐,기숙사가 존재한다. \n이천환기념관:이공계건물, 실습실이 존재한다.',
       missionDescription: '아래와 같은 구도로 사진을 찍으세요',
-      imagePath: 'assets/images/building/1.jpg',
+      imagePath: 'assets/images/building/5.jpg',
       missionImage: 'assets/images/mission.jpg'),
   CampusMarker(
       idNumber: "6", //도서관
@@ -62,7 +62,7 @@ List<CampusMarker> allMarkers = [
       buildingName: '월당관',
       buildingDescription: '수업지원AS실과 열람실이 존재한다.',
       missionDescription: '아래와 같은 구도로 사진을 찍으세요',
-      imagePath: 'assets/images/building/1.jpg',
+      imagePath: 'assets/images/building/7.jpg',
       missionImage: 'assets/images/mission.jpg'),
   CampusMarker(
       idNumber: "8", //일만관
@@ -79,7 +79,7 @@ Set<NMarker> buildCampusMarkers(BuildContext context) {
     final marker = NMarker(
       id: "marker${campusmarker.idNumber}",
       position: campusmarker.position,
-      size: const Size(36, 36),
+      size: const Size(35, 40),
       icon: icon,
     );
 

@@ -9,7 +9,7 @@ class QuizScreen extends StatefulWidget {
 }
 
 class _QuizScreenState extends State<QuizScreen> {
-  int QrewardPoints = 0;
+  int rewardPoints = 0;
   int questionIndex = 0; // 현재 퀴즈 인덱스
   int correctAnswers = 0; // 정답 개수
   final List<Map<String, dynamic>> quizList = [
@@ -45,7 +45,7 @@ class _QuizScreenState extends State<QuizScreen> {
   Future<void> loadRewardPoints() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      QrewardPoints = prefs.getInt('rewardPoints') ?? 0;
+      rewardPoints = prefs.getInt('rewardPoints') ?? 0;
     });
   }
 
@@ -53,7 +53,7 @@ class _QuizScreenState extends State<QuizScreen> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setInt('rewardPoints', points);
     setState(() {
-      QrewardPoints = points;
+      rewardPoints = points;
     });
   }
 
@@ -112,7 +112,7 @@ class _QuizScreenState extends State<QuizScreen> {
 
     if (isCorrect) {
       correctAnswers++;
-      saveRewardPoints(QrewardPoints + 1);
+      saveRewardPoints(rewardPoints + 1);
     }
 
     showDialog(
@@ -146,7 +146,7 @@ class _QuizScreenState extends State<QuizScreen> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text('퀴즈 결과'),
-          content: Text('퀴즈가 끝났습니다.\n맞힌 개수: $correctAnswers\n리워드 포인트: $QrewardPoints'),
+          content: Text('퀴즈가 끝났습니다.\n맞힌 개수: $correctAnswers\n리워드 포인트: $rewardPoints'),
           actions: <Widget>[
             TextButton(
               child: Text('확인'),
