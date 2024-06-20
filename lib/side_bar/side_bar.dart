@@ -8,9 +8,10 @@ import './image_screen/image_storage.dart';    // ImageStorageScreen을 import
 class Sidebar extends StatefulWidget {
   final int rewardPoints;
   final VoidCallback onPointsUpdated;
+  final VoidCallback QonpointsUpdated;
 
   const Sidebar(
-      {super.key, required this.rewardPoints, required this.onPointsUpdated});
+      {super.key, required this.rewardPoints, required this.onPointsUpdated, required this.QonpointsUpdated});
   @override
   _SidebarState createState() => _SidebarState();
 }
@@ -30,6 +31,7 @@ class _SidebarState extends State<Sidebar> {
       rewardPoints = prefs.getInt('rewardPoints') ?? 0;
     });
     widget.onPointsUpdated();
+    widget.QonpointsUpdated();
   }
 
   @override
