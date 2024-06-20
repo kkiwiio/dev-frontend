@@ -4,11 +4,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:project_heck/naver_map/quiz_result.dart';
 import 'package:project_heck/naver_map/quiz.dart';
 
+
 class QuizScore extends StatefulWidget {
   final int rewardPoints;
-  final VoidCallback QonpointsUpdated;
+  final VoidCallback onPointsUpdated;
   const QuizScore(
-      {super.key, required this.rewardPoints, required this.QonpointsUpdated});
+      {super.key, required this.rewardPoints, required this.onPointsUpdated});
   @override
   _QuizScoreState createState() => _QuizScoreState();
 }
@@ -23,7 +24,7 @@ class _QuizScoreState extends State<QuizScore> {
   void loadRewardPoints(BuildContext context) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      rewardPoints = prefs.getInt('rewardPoints') ?? 0;
+      rewardPoints = prefs.getInt('QrewardPoints') ?? 0;
     });
   }
 
@@ -33,7 +34,7 @@ class _QuizScoreState extends State<QuizScore> {
     setState(() {
       rewardPoints = points;
     });
-    widget.QonpointsUpdated();
+    widget.onPointsUpdated();
   }
   void Qsubmitscore(BuildContext context, String userAnswer, String correctAnswer, String explanation) async {
     bool isCorrect = userAnswer == correctAnswer;
