@@ -22,7 +22,7 @@ class _ImageStorageScreenState extends State<ImageStorageScreen> {
   Future<void> _loadUserId() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      userId = prefs.getString('userId');
+      userId = prefs.getString('userEmail');
     });
     if (userId != null) {
       _fetchImageUrls();
@@ -34,7 +34,7 @@ class _ImageStorageScreenState extends State<ImageStorageScreen> {
   }
 
   Future<void> _fetchImageUrls() async {
-    final url = Uri.parse('http://10.0.2.2:8080/api/images?userId=$userId');  // 포트 번호 수정
+    final url = Uri.parse('http://192.168.1.79:8080/api/images?userId=$userId');  // 포트 번호 수정
     try {
       final response = await http.get(url);
 

@@ -95,7 +95,7 @@ void showMarkerDialog(BuildContext context, CampusMarker campusmarker) {
                       showDialog(
                         context: context,
                         builder: (BuildContext context) {
-                          return const QuizScreen();
+                          return QuizScreen();
                         },
                       );
                     }  else {

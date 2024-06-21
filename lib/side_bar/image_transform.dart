@@ -114,8 +114,8 @@ class _ImageTransformState extends State<ImageTransform> {
   }
 
   Future<http.Response> _uploadImage(File imageFile) async {
-    // final url = 'http://192.168.1.79:8080/image/transform?user_email=$userEmail'; 실제 기기 테스트용
-    final url = 'http://10.0.2.2:8080/image/transform';
+    final url = 'http://192.168.1.79:8080/image/transform?user_email=$userEmail'; //실제 기기 테스트용
+    // final url = 'http://10.0.2.2:8080/image/transform';
 
     var request = http.MultipartRequest('POST', Uri.parse(url));
     print(url);

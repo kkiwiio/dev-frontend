@@ -154,7 +154,7 @@ class _LogInState extends State<LogIn> {
       ),
     );
   }
-
+// 임시로 로그인 버튼을 누르면 바로 다음 화면으로 이동하도록 수정
   // Widget _buildLoginButton(BuildContext context) {
   //   return SizedBox(
   //     width: 307,

@@ -6,6 +6,7 @@ import './save_image.dart';
 import './mission_result_dialogs.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../naver_map/naver_map.dart';
 
 class DisplayImageScreen extends StatefulWidget {
   final String imagePath;
@@ -85,30 +86,21 @@ class _DisplayImageScreenState extends State<DisplayImageScreen> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                ElevatedButton(
-                  style: ButtonStyle(
-                    backgroundColor: WidgetStateProperty.all(
-                        const Color.fromARGB(255, 108, 189, 202)),
-                  ),
-                  onPressed: () async {
-                    final picker = ImagePicker();
-                    final pickedFile =
-                    await picker.pickImage(source: ImageSource.camera);
-
-                    if (pickedFile != null) {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => DisplayImageScreen(
-                            imagePath: pickedFile.path,
-                            idNumber: widget.idNumber,
-                          ),
-                        ),
-                      );
-                    }
-                  },
+                            ElevatedButton(
+                            style: ButtonStyle(
+                            backgroundColor: WidgetStateProperty.all(
+                                const Color.fromARGB(255, 108, 189, 202)),
+                    ),
+                    onPressed: () {
+                    Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                    builder: (context) => NaverMapApp(),
+                    ),
+                    );
+                    },
                   child: const Text(
-                    '다시찍기',
+                    '처음으로',
                     style: TextStyle(
                       color: Colors.black,
                       fontFamily: 'GmarketSansTTFBol',
