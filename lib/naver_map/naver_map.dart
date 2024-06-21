@@ -4,6 +4,10 @@ import 'package:project_heck/naver_map/maker_campus.dart';
 import 'package:project_heck/naver_map/user_position.dart';
 import 'package:project_heck/side_bar/side_bar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:project_heck/naver_map/quiz.dart';
+import 'package:project_heck/naver_map/quiz_score.dart';
+
+
 
 class NaverMapApp extends StatefulWidget {
   const NaverMapApp({super.key});
@@ -106,6 +110,7 @@ class _NaverMapAppState extends State<NaverMapApp> {
             QonpointsUpdated: () {
               setState(() {});
             },
+
           );
         },
       ),
