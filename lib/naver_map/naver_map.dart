@@ -4,10 +4,6 @@ import 'package:project_heck/naver_map/maker_campus.dart';
 import 'package:project_heck/naver_map/user_position.dart';
 import 'package:project_heck/side_bar/side_bar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:project_heck/naver_map/quiz.dart';
-import 'package:project_heck/naver_map/quiz_score.dart';
-
-
 
 class NaverMapApp extends StatefulWidget {
   const NaverMapApp({super.key});
@@ -18,7 +14,7 @@ class NaverMapApp extends StatefulWidget {
 
 class _NaverMapAppState extends State<NaverMapApp> {
   late NaverMapController _mapController;
-  late LocationService _locationService;
+  late LocationService locationService;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   Future<int> loadRewardPoints() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -56,7 +52,7 @@ class _NaverMapAppState extends State<NaverMapApp> {
               _mapController.addOverlayAll(buildCampusMarkers(context));
 
               // 위치 서비스 초기화
-              _locationService = LocationService(_mapController);
+              locationService = LocationService(_mapController);
             },
           ),
           Positioned(
@@ -110,7 +106,6 @@ class _NaverMapAppState extends State<NaverMapApp> {
             QonpointsUpdated: () {
               setState(() {});
             },
-
           );
         },
       ),

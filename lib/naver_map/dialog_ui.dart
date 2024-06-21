@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:project_heck/naver_map/campusmarker_model.dart';
 import 'package:project_heck/naver_map/mission.dart';
 import 'package:project_heck/naver_map/quiz.dart';
-import 'package:project_heck/naver_map/maker_campus.dart';
-
 
 class TopRoundedClipper extends CustomClipper<Path> {
   @override
@@ -34,7 +32,6 @@ class TopRoundedClipper extends CustomClipper<Path> {
 
 void showMarkerDialog(BuildContext context, CampusMarker campusmarker) {
   log("showMarkerDialog called for ${campusmarker.buildingName}");
-  int idNumber;
   showDialog(
     context: context,
     builder: (BuildContext context) {
@@ -98,7 +95,7 @@ void showMarkerDialog(BuildContext context, CampusMarker campusmarker) {
                           return QuizScreen();
                         },
                       );
-                    }  else {
+                    } else {
                       Navigator.of(context).pop();
                       showDialog(
                         context: context,

@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'dart:math';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:project_heck/naver_map/quiz_result.dart';
-import 'package:project_heck/naver_map/quiz.dart';
-
 
 class QuizScore extends StatefulWidget {
   final int rewardPoints;
@@ -36,9 +33,10 @@ class _QuizScoreState extends State<QuizScore> {
     });
     widget.onPointsUpdated();
   }
-  void Qsubmitscore(BuildContext context, String userAnswer, String correctAnswer, String explanation) async {
-    bool isCorrect = userAnswer == correctAnswer;
 
+  void Qsubmitscore(BuildContext context, String userAnswer,
+      String correctAnswer, String explanation) async {
+    bool isCorrect = userAnswer == correctAnswer;
 
     if (isCorrect) {
       showQuizSuccessDialog(context, rewardPoints + 1);
@@ -46,6 +44,5 @@ class _QuizScoreState extends State<QuizScore> {
     } else {
       showQuizFailureDialog(context);
     }
-
   }
 }

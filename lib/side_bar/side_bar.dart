@@ -1,10 +1,8 @@
-
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../side_bar/image_transform.dart';
 import '../login/login.dart';
 import './image_storage.dart';
-
 
 class Sidebar extends StatefulWidget {
   final int rewardPoints;
@@ -89,7 +87,8 @@ class _SidebarState extends State<Sidebar> {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => ImageStorageScreen()),
+                MaterialPageRoute(
+                    builder: (context) => const ImageStorageScreen()),
               );
             },
             trailing: const Icon(Icons.add),
@@ -112,9 +111,9 @@ class _SidebarState extends State<Sidebar> {
                 context,
                 MaterialPageRoute(
                     builder: (context) => ImageTransform(
-                      rewardPoints: rewardPoints,
-                      onPointsUpdated: widget.onPointsUpdated,
-                    )),
+                          rewardPoints: rewardPoints,
+                          onPointsUpdated: widget.onPointsUpdated,
+                        )),
               ).then((_) {
                 loadRewardPoints();
               });
@@ -136,7 +135,6 @@ class _SidebarState extends State<Sidebar> {
           const SizedBox(height: 30.0),
           GestureDetector(
             onTap: () {
-              // 로그아웃 로직 추가
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (context) => const LogIn()),

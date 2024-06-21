@@ -29,13 +29,11 @@ class LocationService {
           return;
         }
       }
-
-      // 초기 위치 설정
       LocationData locationData = await location.getLocation();
       _currentLocationMarker = NMarker(
         id: 'currentLocation',
         position: NLatLng(locationData.latitude!, locationData.longitude!),
-        size: const NSize(36, 36), // 마커 크기 설정
+        size: const NSize(36, 36),
         icon: const NOverlayImage.fromAssetImage(
             'assets/images/current_location.png'),
       );
@@ -56,7 +54,7 @@ class LocationService {
         _currentLocationMarker = NMarker(
           id: 'currentLocation',
           position: NLatLng(res.latitude!, res.longitude!),
-          size: const NSize(36, 36), // 마커 크기 설정
+          size: const NSize(36, 36),
           icon: const NOverlayImage.fromAssetImage(
               'assets/images/current_location.png'),
         );
