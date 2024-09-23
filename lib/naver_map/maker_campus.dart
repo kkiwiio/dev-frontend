@@ -14,7 +14,7 @@ List<CampusMarker> allMarkers = [
       position: const NLatLng(37.48834872, 126.82502522),
       buildingName: '구두인관',
       buildingDescription: '신학연구원과 구로마을 대학이 존재한다.',
-      missionDescription: '아래와 같은 구도로 사진을 찍으세요',
+      missionDescription: '구두인관의 가이드라인에 맞게 사진을 찍으세요!',
       imagePath: 'assets/images/building/1.jpg',
       missionImage: 'assets/images/mission.jpg'),
   CampusMarker(

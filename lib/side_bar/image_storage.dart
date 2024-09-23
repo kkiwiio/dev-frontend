@@ -81,7 +81,7 @@ class _ImageStorageScreenState extends State<ImageStorageScreen> {
             Navigator.pop(context);
           },
         ),
-        title: const Text('저장된 이미지'),
+        title: const Text('마이페이지'),
         centerTitle: true,
         backgroundColor: Colors.white,
       ),

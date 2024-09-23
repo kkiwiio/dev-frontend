@@ -74,11 +74,11 @@ class _SidebarState extends State<Sidebar> {
           const SizedBox(height: 30.0),
           ListTile(
             leading: const Icon(
-              Icons.collections,
+              Icons.man,
               color: Colors.black,
             ),
             title: const Text(
-              '생성형이미지 보러가기',
+              '마이페이지',
               style: TextStyle(
                 fontSize: 16.0,
                 fontFamily: 'GmarketSansTTFMedium',
@@ -100,7 +100,7 @@ class _SidebarState extends State<Sidebar> {
               color: Colors.black,
             ),
             title: const Text(
-              '생성형이미지 바꾸러 가기',
+              '생성형이미지 보러가기',
               style: TextStyle(
                 fontSize: 15.0,
                 fontFamily: 'GmarketSansTTFMedium',

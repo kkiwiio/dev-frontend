@@ -64,7 +64,7 @@ class MissionDialog extends StatelessWidget {
             const SizedBox(height: 16),
             Image.asset(
               missionImage,
-              height: 150,
+              height: 300,
               width: double.infinity,
               fit: BoxFit.cover,
             ),
