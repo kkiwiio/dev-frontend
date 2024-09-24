@@ -1,5 +1,10 @@
+import 'dart:async';
+import 'package:flutter/material.dart';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:location/location.dart';
+import '../naver_map/campusmarker_model.dart';
+import '../utils/distance_calc.dart';
+import '../naver_map/maker_campus.dart'; // allMarkers를 가져오기 위해 추가
 
 class LocationService {
   final NaverMapController mapController;
@@ -7,6 +12,10 @@ class LocationService {
   Location location = Location();
   late bool _serviceEnabled;
   late PermissionStatus _permissionGranted;
+  StreamSubscription<LocationData>? _locationSubscription;
+
+  List<CampusMarker> sortedBuildings = [];
+  Function(List<CampusMarker>)? onBuildingsSorted;
 
   LocationService(this.mapController) {
     _initializeLocation();
@@ -29,39 +38,76 @@ class LocationService {
           return;
         }
       }
-      LocationData locationData = await location.getLocation();
-      _currentLocationMarker = NMarker(
-        id: 'currentLocation',
-        position: NLatLng(locationData.latitude!, locationData.longitude!),
-        size: const NSize(36, 36),
-        icon: const NOverlayImage.fromAssetImage(
-            'assets/images/current_location.png'),
+
+      await location.changeSettings(
+        accuracy: LocationAccuracy.high,
+        interval: 10000, // 10초마다 업데이트
       );
 
-      mapController.updateCamera(
-        NCameraUpdate.withParams(
-          target: NLatLng(locationData.latitude!, locationData.longitude!),
-          zoom: 17.8,
-        ),
-      );
-      mapController.addOverlay(_currentLocationMarker!);
-
-      // 위치 변화 감지 설정
-      location.onLocationChanged.listen((LocationData res) {
-        if (_currentLocationMarker != null) {
-          mapController.getLocationOverlay();
-        }
-        _currentLocationMarker = NMarker(
-          id: 'currentLocation',
-          position: NLatLng(res.latitude!, res.longitude!),
-          size: const NSize(36, 36),
-          icon: const NOverlayImage.fromAssetImage(
-              'assets/images/current_location.png'),
-        );
-        mapController.addOverlay(_currentLocationMarker!);
-      });
+      await _startLocationUpdates();
     } catch (e) {
-      print('Error while getting location: $e');
+      debugPrint('Error while initializing location: $e');
     }
+  }
+
+  Future<void> _startLocationUpdates() async {
+    _locationSubscription =
+        location.onLocationChanged.listen((LocationData locationData) {
+      _updateUserLocation(locationData);
+    });
+  }
+
+  List<CampusMarker> sortBuildingsByDistance(
+      LocationData userLocation, List<CampusMarker> buildings) {
+    for (var building in buildings) {
+      building.distance = calculateDistance(
+          userLocation.latitude!,
+          userLocation.longitude!,
+          building.position.latitude,
+          building.position.longitude);
+    }
+
+    buildings.sort((a, b) => a.distance.compareTo(b.distance));
+    return buildings;
+  }
+
+  void _updateUserLocation(LocationData locationData) {
+    if (_currentLocationMarker != null) {
+      mapController.deleteOverlay(_currentLocationMarker!.info);
+    }
+
+    _currentLocationMarker = NMarker(
+      id: 'currentLocation',
+      icon: const NOverlayImage.fromAssetImage(
+          'assets/images/current_location.png'),
+      position: NLatLng(locationData.latitude!, locationData.longitude!),
+    );
+
+    mapController.addOverlay(_currentLocationMarker!);
+    mapController.updateCamera(
+      NCameraUpdate.withParams(
+        target: NLatLng(locationData.latitude!, locationData.longitude!),
+        zoom: 17.8,
+      ),
+    );
+
+    // 건물 정렬 및 UI 업데이트
+    sortedBuildings = sortBuildingsByDistance(locationData, allMarkers);
+    if (onBuildingsSorted != null) {
+      onBuildingsSorted!(sortedBuildings);
+    }
+  }
+
+  Future<LocationData?> getCurrentLocation() async {
+    try {
+      return await location.getLocation();
+    } catch (e) {
+      debugPrint('Error getting current location: $e');
+      return null;
+    }
+  }
+
+  void dispose() {
+    _locationSubscription?.cancel();
   }
 }
