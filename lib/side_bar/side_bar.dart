@@ -1,17 +1,19 @@
-
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../side_bar/image_transform.dart';
 import '../login/login.dart';
-import './image_screen/image_storage.dart';    // ImageStorageScreen을 import
-import 'package:project_heck/naver_map/quiz_score.dart';
+import './image_storage.dart';
 
 class Sidebar extends StatefulWidget {
   final int rewardPoints;
   final VoidCallback onPointsUpdated;
+  final VoidCallback QonpointsUpdated;
 
   const Sidebar(
-      {super.key, required this.rewardPoints, required this.onPointsUpdated});
+      {super.key,
+      required this.rewardPoints,
+      required this.onPointsUpdated,
+      required this.QonpointsUpdated});
   @override
   _SidebarState createState() => _SidebarState();
 }
@@ -31,6 +33,7 @@ class _SidebarState extends State<Sidebar> {
       rewardPoints = prefs.getInt('rewardPoints') ?? 0;
     });
     widget.onPointsUpdated();
+    widget.QonpointsUpdated();
   }
 
   @override
@@ -71,11 +74,11 @@ class _SidebarState extends State<Sidebar> {
           const SizedBox(height: 30.0),
           ListTile(
             leading: const Icon(
-              Icons.collections,
+              Icons.man,
               color: Colors.black,
             ),
             title: const Text(
-              '생성형이미지 보러가기',
+              '마이페이지',
               style: TextStyle(
                 fontSize: 16.0,
                 fontFamily: 'GmarketSansTTFMedium',
@@ -84,7 +87,8 @@ class _SidebarState extends State<Sidebar> {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => ImageStorageScreen()),
+                MaterialPageRoute(
+                    builder: (context) => const ImageStorageScreen()),
               );
             },
             trailing: const Icon(Icons.add),
@@ -96,7 +100,7 @@ class _SidebarState extends State<Sidebar> {
               color: Colors.black,
             ),
             title: const Text(
-              '생성형이미지 바꾸러 가기',
+              '생성형이미지 보러가기',
               style: TextStyle(
                 fontSize: 15.0,
                 fontFamily: 'GmarketSansTTFMedium',
@@ -107,9 +111,9 @@ class _SidebarState extends State<Sidebar> {
                 context,
                 MaterialPageRoute(
                     builder: (context) => ImageTransform(
-                      rewardPoints: rewardPoints,
-                      onPointsUpdated: widget.onPointsUpdated,
-                    )),
+                          rewardPoints: rewardPoints,
+                          onPointsUpdated: widget.onPointsUpdated,
+                        )),
               ).then((_) {
                 loadRewardPoints();
               });
@@ -131,7 +135,6 @@ class _SidebarState extends State<Sidebar> {
           const SizedBox(height: 30.0),
           GestureDetector(
             onTap: () {
-              // 로그아웃 로직 추가
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (context) => const LogIn()),

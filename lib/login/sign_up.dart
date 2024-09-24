@@ -38,7 +38,7 @@ class _SignupPageState extends State<SignupPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Signup'),
+        title: const Text('회원가입'),
       ),
       body: Form(
         key: _formKey,
@@ -51,7 +51,7 @@ class _SignupPageState extends State<SignupPage> {
                 decoration: const InputDecoration(labelText: 'Name'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter your name';
+                    return '이름을 입력하세요';
                   }
                   return null;
                 },
@@ -61,7 +61,7 @@ class _SignupPageState extends State<SignupPage> {
                 decoration: const InputDecoration(labelText: 'Email'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter your email';
+                    return '이메일을 입력하세요';
                   }
                   return null;
                 },
@@ -72,7 +72,7 @@ class _SignupPageState extends State<SignupPage> {
                 obscureText: true,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter your password';
+                    return '비밀번호를 입력하세요';
                   }
                   return null;
                 },
@@ -80,7 +80,7 @@ class _SignupPageState extends State<SignupPage> {
               const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: _register,
-                child: const Text('Register'),
+                child: const Text('등록하기'),
               ),
             ],
           ),

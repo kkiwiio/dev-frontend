@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'dart:math';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:project_heck/naver_map/quiz_result.dart';
 
 class QuizScreen extends StatefulWidget {
+  const QuizScreen({super.key});
+
   @override
   _QuizScreenState createState() => _QuizScreenState();
 }
@@ -73,14 +73,8 @@ class _QuizScreenState extends State<QuizScreen> {
     }
   }
 
-  void _showQuizDialog(
-      BuildContext context,
-      String difficulty,
-      String question,
-      String answer,
-      List<String> options,
-      String explanation
-      ) {
+  void _showQuizDialog(BuildContext context, String difficulty, String question,
+      String answer, List<String> options, String explanation) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -90,16 +84,16 @@ class _QuizScreenState extends State<QuizScreen> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(question),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               ...options.map((option) => RadioListTile<String>(
-                title: Text(option),
-                value: option,
-                groupValue: null,
-                onChanged: (value) {
-                  Navigator.of(context).pop();
-                  _checkAnswer(context, value!, answer, explanation);
-                },
-              )),
+                    title: Text(option),
+                    value: option,
+                    groupValue: null,
+                    onChanged: (value) {
+                      Navigator.of(context).pop();
+                      _checkAnswer(context, value!, answer, explanation);
+                    },
+                  )),
             ],
           ),
         );
@@ -107,7 +101,8 @@ class _QuizScreenState extends State<QuizScreen> {
     );
   }
 
-  void _checkAnswer(BuildContext context, String userAnswer, String correctAnswer, String explanation) async {
+  void _checkAnswer(BuildContext context, String userAnswer,
+      String correctAnswer, String explanation) async {
     bool isCorrect = userAnswer == correctAnswer;
 
     if (isCorrect) {
@@ -120,12 +115,10 @@ class _QuizScreenState extends State<QuizScreen> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text(isCorrect ? '정답' : '오답'),
-          content: Text(isCorrect
-              ? '정답입니다!\n\n해설: $explanation'
-              : '오답입니다.'),
+          content: Text(isCorrect ? '정답입니다!\n\n해설: $explanation' : '오답입니다.'),
           actions: <Widget>[
             TextButton(
-              child: Text('확인'),
+              child: const Text('확인'),
               onPressed: () {
                 Navigator.of(context).pop();
                 setState(() {
@@ -145,11 +138,12 @@ class _QuizScreenState extends State<QuizScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('퀴즈 결과'),
-          content: Text('퀴즈가 끝났습니다.\n맞힌 개수: $correctAnswers\n리워드 포인트: $rewardPoints'),
+          title: const Text('퀴즈 결과'),
+          content: Text(
+              '퀴즈가 끝났습니다.\n맞힌 개수: $correctAnswers\n리워드 포인트: $rewardPoints'),
           actions: <Widget>[
             TextButton(
-              child: Text('확인'),
+              child: const Text('확인'),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -164,14 +158,14 @@ class _QuizScreenState extends State<QuizScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('퀴즈'),
+        title: const Text('퀴즈'),
       ),
       body: Center(
         child: ElevatedButton(
           onPressed: () {
             _showNextQuiz(context);
           },
-          child: Text('퀴즈 시작하기'),
+          child: const Text('퀴즈 시작하기'),
         ),
       ),
     );

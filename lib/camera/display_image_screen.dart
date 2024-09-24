@@ -1,11 +1,10 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import '../services/image_service.dart';
 import './save_image.dart';
 import './mission_result_dialogs.dart';
-import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../naver_map/naver_map.dart';
 
 class DisplayImageScreen extends StatefulWidget {
   final String imagePath;
@@ -45,6 +44,7 @@ class _DisplayImageScreenState extends State<DisplayImageScreen> {
       rewardPoints = points;
     });
   }
+
   Future<void> _submitImage() async {
     final imageFile = File(widget.imagePath);
     final response = await ImageService.uploadImage(imageFile, widget.idNumber);
@@ -52,7 +52,7 @@ class _DisplayImageScreenState extends State<DisplayImageScreen> {
     if (response.statusCode == 200) {
       final compareResult = int.parse(response.body);
       if (compareResult == 1) {
-        showMissionSuccessDialog(context,rewardPoints + 1);
+        showMissionSuccessDialog(context, rewardPoints + 1);
         saveRewardPoints(rewardPoints + 1);
       } else {
         showMissionFailureDialog(context);
@@ -90,25 +90,16 @@ class _DisplayImageScreenState extends State<DisplayImageScreen> {
                     backgroundColor: WidgetStateProperty.all(
                         const Color.fromARGB(255, 108, 189, 202)),
                   ),
-                  onPressed: () async {
-                    final picker = ImagePicker();
-                    final pickedFile =
-                    await picker.pickImage(source: ImageSource.camera);
-
-                    if (pickedFile != null) {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => DisplayImageScreen(
-                            imagePath: pickedFile.path,
-                            idNumber: widget.idNumber,
-                          ),
-                        ),
-                      );
-                    }
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const NaverMapApp(),
+                      ),
+                    );
                   },
                   child: const Text(
-                    '다시찍기',
+                    '처음으로',
                     style: TextStyle(
                       color: Colors.black,
                       fontFamily: 'GmarketSansTTFBol',

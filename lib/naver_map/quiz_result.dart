@@ -47,4 +47,3 @@ void showQuizFailureDialog(BuildContext context) {
     },
   );
 }
-
