@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:project_heck/naver_map/maker_campus.dart';
 import 'package:project_heck/naver_map/user_position.dart';
-import 'package:project_heck/side_bar/side_bar.dart';
+// import 'package:project_heck/side_bar/side_bar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:project_heck/naver_map/campusmarker_model.dart';
 import 'package:project_heck/widgets/slider_widget.dart';
@@ -59,10 +59,13 @@ class _NaverMapAppState extends State<NaverMapApp> {
             ),
             onMapReady: (mapController) {
               _mapController = mapController;
-              _mapController.addOverlayAll(buildCampusMarkers(context));
+              Set<NMarker> markers = buildCampusMarkers(context);
+              _mapController.addOverlayAll(markers);
 
               locationService = LocationService(_mapController);
               locationService.onBuildingsSorted = updateSortedBuildings;
+
+              // setMarkerTapListeners(markers, context, locationService);
             },
           ),
           Positioned(
@@ -121,21 +124,21 @@ class _NaverMapAppState extends State<NaverMapApp> {
           ),
         ],
       ),
-      drawer: FutureBuilder<int>(
-        future: loadRewardPoints(),
-        builder: (context, snapshot) {
-          final rewardPoints = snapshot.data ?? 0;
-          return Sidebar(
-            rewardPoints: rewardPoints,
-            onPointsUpdated: () {
-              setState(() {});
-            },
-            QonpointsUpdated: () {
-              setState(() {});
-            },
-          );
-        },
-      ),
     );
   }
 }
+      // drawer: FutureBuilder<int>(
+      //   future: loadRewardPoints(),
+      //   builder: (context, snapshot) {
+      //     final rewardPoints = snapshot.data ?? 0;
+      //     return Sidebar(
+      //       rewardPoints: rewardPoints,
+      //       onPointsUpdated: () {
+      //         setState(() {});
+      //       },
+      //       QonpointsUpdated: () {
+      //         setState(() {});
+      //       },
+      //     );
+      //   },
+      // ),

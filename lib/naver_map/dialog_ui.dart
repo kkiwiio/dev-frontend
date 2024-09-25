@@ -92,7 +92,7 @@ void showMarkerDialog(BuildContext context, CampusMarker campusmarker) {
                       showDialog(
                         context: context,
                         builder: (BuildContext context) {
-                          return QuizScreen();
+                          return const QuizScreen();
                         },
                       );
                     } else {
@@ -104,6 +104,7 @@ void showMarkerDialog(BuildContext context, CampusMarker campusmarker) {
                             missionDescription: campusmarker.missionDescription,
                             missionImage: campusmarker.missionImage,
                             idNumber: campusmarker.idNumber,
+                            filterImage: campusmarker.filterImg,
                           );
                         },
                       );

@@ -64,7 +64,7 @@ class NearbyBuildingsSlider extends StatelessWidget {
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                           ),
-                          const SizedBox(height: 6), // 텍스트 사이 간격 증가
+                          const SizedBox(height: 6),
                           Text(
                             '${building.distance.toStringAsFixed(0)} Mtr Left',
                             style: TextStyle(

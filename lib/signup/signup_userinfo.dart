@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
+import '../services/api_service.dart';
 
 class SignupForm extends StatefulWidget {
-  const SignupForm({super.key});
+  final String email;
+  final String password;
+
+  const SignupForm({super.key, required this.email, required this.password});
 
   @override
   _SignupFormState createState() => _SignupFormState();
@@ -12,27 +16,28 @@ class SignupForm extends StatefulWidget {
 class _SignupFormState extends State<SignupForm> {
   File? _image;
   final _formKey = GlobalKey<FormState>();
+
   final _nameController = TextEditingController();
   final _studentIdController = TextEditingController();
   String? _selectedMajor;
-
-  final List<String> _majors = [
-    '일어일본한전공',
-    '중어중국학전공',
-    '종교와신학전공',
-    '경영학전공',
-    '사회복지학전공',
-    '사회학전공',
-    '경제학전공',
-    '정치외교학전공'
-        '정치외교학전공',
-    '신문방송학전공',
-    '디지털콘텐츠전공',
-    '영상콘텐츠전공',
-    '인공지능전공',
-    '빅데이터 응용전공',
-    '소프트웨어 융합전공'
-  ];
+  final Map<String, int> _majorIdMap = {
+    '일어일본한전공': 1,
+    '중어중국학전공': 2,
+    '종교와신학전공': 3,
+    '경영학전공': 4,
+    '사회복지학전공': 5,
+    '사회학전공': 6,
+    '경제학전공': 7,
+    '정치외교학전공': 8,
+    '신문방송학전공': 9,
+    '디지털콘텐츠전공': 10,
+    '영상콘텐츠전공': 11,
+    '인공지능전공': 12,
+    '빅데이터 응용전공': 13,
+    '소프트웨어 융합전공': 14,
+    '대학원': 15,
+    '학과없음': 16,
+  };
 
   Future<void> _getImage() async {
     final pickedFile =
@@ -44,12 +49,30 @@ class _SignupFormState extends State<SignupForm> {
     }
   }
 
-  void _submit() {
+  void _submit() async {
     if (_formKey.currentState!.validate()) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('등록되었습니다')),
-      );
-      Navigator.pop(context);
+      try {
+        final user = Users(
+          studentId: _studentIdController.text,
+          password: widget.password,
+          userName: _nameController.text,
+          // majorId: _majors.indexOf(_selectedMajor!) + 1,
+          majorId: _majorIdMap[_selectedMajor] ?? 0,
+          userId: widget.email,
+        );
+        print('Sending user data: ${user.toJson()}');
+        final result = await ApiService.signup(user);
+        print('Signup successful: $result');
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('회원가입이 완료되었습니다')),
+        );
+        Navigator.of(context).popUntil((route) => route.isFirst);
+      } catch (e) {
+        print('Signup failed: $e');
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('회원가입에 실패했습니다: ${e.toString()}')),
+        );
+      }
     }
   }
 
@@ -196,7 +219,7 @@ class _SignupFormState extends State<SignupForm> {
                           }
                           return null;
                         },
-                        items: _majors
+                        items: _majorIdMap.keys
                             .map<DropdownMenuItem<String>>((String value) {
                           return DropdownMenuItem<String>(
                             value: value,
@@ -216,7 +239,7 @@ class _SignupFormState extends State<SignupForm> {
                                 color: Color(0xffA1A1A1), width: 2.0),
                           ),
                         ),
-                        isExpanded: true, // 이 부분을 추가하여 드롭다운 메뉴가 잘리지 않도록 합니다.
+                        isExpanded: true,
                       ),
                     ],
                   ),

@@ -50,6 +50,20 @@ class LocationService {
     }
   }
 
+  Future<bool> isBuildingInRange(
+      CampusMarker building, double maxDistance) async {
+    LocationData? userLocation = await getCurrentLocation();
+    if (userLocation == null) return false;
+
+    double distance = calculateDistance(
+        userLocation.latitude!,
+        userLocation.longitude!,
+        building.position.latitude,
+        building.position.longitude);
+
+    return distance <= maxDistance;
+  }
+
   Future<void> _startLocationUpdates() async {
     _locationSubscription =
         location.onLocationChanged.listen((LocationData locationData) {

@@ -8,6 +8,7 @@ class CampusMarker {
   final String missionDescription;
   final String imagePath;
   final String missionImage;
+  final String filterImg;
   double distance = 0;
 
   CampusMarker({
@@ -18,6 +19,7 @@ class CampusMarker {
     required this.missionDescription,
     required this.imagePath,
     required this.missionImage,
+    required this.filterImg,
     this.distance = 0,
   });
 }

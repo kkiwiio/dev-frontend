@@ -1,147 +1,96 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import '../services/image_service.dart';
-import './save_image.dart';
-import './mission_result_dialogs.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import '../naver_map/naver_map.dart';
+import 'package:flutter_exif_rotation/flutter_exif_rotation.dart';
 
-class DisplayImageScreen extends StatefulWidget {
+class DisplayImageScreen extends StatelessWidget {
   final String imagePath;
   final String idNumber;
+  final String filterImage;
 
   const DisplayImageScreen({
     super.key,
     required this.imagePath,
     required this.idNumber,
+    required this.filterImage,
   });
 
-  @override
-  _DisplayImageScreenState createState() => _DisplayImageScreenState();
-}
-
-class _DisplayImageScreenState extends State<DisplayImageScreen> {
-  String? _transformedImageUrl;
-  int rewardPoints = 0;
-
-  @override
-  void initState() {
-    super.initState();
-    loadRewardPoints();
+  Future<File> _fixExifRotation(String imagePath) async {
+    return await FlutterExifRotation.rotateImage(path: imagePath);
   }
 
-  Future<void> loadRewardPoints() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      rewardPoints = prefs.getInt('rewardPoints') ?? 0;
-    });
+  void _retakePicture(BuildContext context) {
+    Navigator.pop(context);
   }
 
-  Future<void> saveRewardPoints(int points) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setInt('rewardPoints', points);
-    setState(() {
-      rewardPoints = points;
-    });
-  }
-
-  Future<void> _submitImage() async {
-    final imageFile = File(widget.imagePath);
-    final response = await ImageService.uploadImage(imageFile, widget.idNumber);
-
-    if (response.statusCode == 200) {
-      final compareResult = int.parse(response.body);
-      if (compareResult == 1) {
-        showMissionSuccessDialog(context, rewardPoints + 1);
-        saveRewardPoints(rewardPoints + 1);
-      } else {
-        showMissionFailureDialog(context);
-      }
-    } else {
-      // showUploadFailureDialog(context);
-      String errorMessage = response.body;
-      showUploadFailureDialog(context, errorMessage);
-    }
+  void _submitPicture(BuildContext context) {
+    // TODO: Implement submission logic
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('사진이 제출되었습니다!')),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Spacer(),
-          Flexible(
-            flex: 3,
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: _transformedImageUrl != null
-                  ? Image.network(_transformedImageUrl!)
-                  : Image.file(File(widget.imagePath)),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      appBar: AppBar(
+        title: const Text('촬영된 사진'),
+        backgroundColor: Colors.black,
+      ),
+      body: FutureBuilder<File>(
+        future: _fixExifRotation(imagePath),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            return Column(
               children: [
-                ElevatedButton(
-                  style: ButtonStyle(
-                    backgroundColor: WidgetStateProperty.all(
-                        const Color.fromARGB(255, 108, 189, 202)),
-                  ),
-                  onPressed: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const NaverMapApp(),
+                Expanded(
+                  child: Container(
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: Colors.black,
+                      image: DecorationImage(
+                        image: FileImage(snapshot.data!),
+                        fit: BoxFit.contain,
                       ),
-                    );
-                  },
-                  child: const Text(
-                    '처음으로',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontFamily: 'GmarketSansTTFBol',
-                      fontSize: 14,
                     ),
                   ),
                 ),
-                ElevatedButton(
-                  style: ButtonStyle(
-                    backgroundColor: WidgetStateProperty.all(
-                        const Color.fromARGB(255, 108, 189, 202)),
-                  ),
-                  onPressed: () => saveImage(context, widget.imagePath),
-                  child: const Text(
-                    '저장하기',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontFamily: 'GmarketSansTTFBol',
-                      fontSize: 14,
-                    ),
-                  ),
-                ),
-                ElevatedButton(
-                  style: ButtonStyle(
-                    backgroundColor: WidgetStateProperty.all(
-                      const Color.fromARGB(255, 108, 189, 202),
-                    ),
-                  ),
-                  onPressed: _submitImage,
-                  child: const Text(
-                    '제출하기',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontFamily: 'GmarketSansTTFBol',
-                      fontSize: 14,
-                    ),
+                Container(
+                  padding: const EdgeInsets.all(16.0),
+                  color: Colors.black,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      ElevatedButton.icon(
+                        icon: const Icon(Icons.camera_alt),
+                        label: const Text('다시 찍기'),
+                        onPressed: () => _retakePicture(context),
+                        style: ElevatedButton.styleFrom(
+                          foregroundColor: Colors.white,
+                          backgroundColor: Colors.grey[800],
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 12),
+                        ),
+                      ),
+                      ElevatedButton.icon(
+                        icon: const Icon(Icons.check),
+                        label: const Text('제출하기'),
+                        onPressed: () => _submitPicture(context),
+                        style: ElevatedButton.styleFrom(
+                          foregroundColor: Colors.white,
+                          backgroundColor: Colors.green,
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 12),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],
-            ),
-          ),
-        ],
+            );
+          } else {
+            return const Center(child: CircularProgressIndicator());
+          }
+        },
       ),
     );
   }
