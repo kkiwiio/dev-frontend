@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../signup/signup_email.dart';
 import '../naver_map/naver_map.dart';
+import '../services/api_service.dart';
 
 class LoginModal extends StatefulWidget {
   final VoidCallback onClose;
@@ -14,6 +15,7 @@ class LoginModal extends StatefulWidget {
 class _LoginModalState extends State<LoginModal> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  bool _isLoading = false;
 
   @override
   void dispose() {
@@ -26,15 +28,50 @@ class _LoginModalState extends State<LoginModal> {
     Navigator.of(context).push(
       MaterialPageRoute(builder: (context) => const EmailSignupPage()),
     );
-    widget.onClose(); // 모달을 닫습니다.
+    widget.onClose();
+  }
+
+  Future<void> _login() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      final result = await ApiService.login(
+        _usernameController.text,
+        _passwordController.text,
+      );
+      print('Login result: $result');
+
+      if (result == 'Login successful') {
+        // 로그인 성공 후 네이버 맵 페이지로 이동
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => const NaverMapApp()),
+        );
+      } else {
+        // 로그인 실패 메시지 표시
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('아이디 또는 비밀번호를 확인해주세요')),
+        );
+      }
+    } catch (e) {
+      print('Login failed: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('아이디 또는 비밀번호를 확인해주세요')),
+      );
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final buttonWidth = size.width * 0.8; // 80% of screen width
-    final inputWidth = size.width * 0.75; // 75% of screen width
-    final modalHeight = size.height * 0.5; // 50% of screen height
+    final buttonWidth = size.width * 0.8;
+    final inputWidth = size.width * 0.75;
+    final modalHeight = size.height * 0.5;
 
     return GestureDetector(
       onTap: widget.onClose,
@@ -62,7 +99,7 @@ class _LoginModalState extends State<LoginModal> {
                   ),
                   child: SingleChildScrollView(
                     child: Padding(
-                      padding: EdgeInsets.all(size.width * 0.05), // 5% padding
+                      padding: EdgeInsets.all(size.width * 0.05),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisSize: MainAxisSize.min,
@@ -71,8 +108,7 @@ class _LoginModalState extends State<LoginModal> {
                             '로그인',
                             style: TextStyle(
                               fontFamily: 'GmarketSansTTFBold',
-                              fontSize:
-                                  size.width * 0.06, // Responsive font size
+                              fontSize: size.width * 0.06,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -106,30 +142,26 @@ class _LoginModalState extends State<LoginModal> {
                           SizedBox(height: size.height * 0.05),
                           SizedBox(
                             width: buttonWidth,
-                            height: size.height * 0.06, // 6% of screen height
+                            height: size.height * 0.06,
                             child: ElevatedButton(
-                              onPressed: () {
-                                Navigator.of(context).pushReplacement(
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const NaverMapApp()),
-                                );
-                                widget.onClose();
-                              },
+                              onPressed: _isLoading ? null : _login,
                               style: ElevatedButton.styleFrom(
-                                  backgroundColor: const Color(0xFF87C159),
+                                backgroundColor: const Color(0xFF87C159),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(20),
                                 ),
                               ),
-                              child: Text(
-                                '시작하기',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: size.width * 0.045,
-                                  fontFamily: 'GmarketSansTTFMedium',
-                                ),
-                              ),
+                              child: _isLoading
+                                  ? const CircularProgressIndicator(
+                                      color: Colors.white)
+                                  : Text(
+                                      '시작하기',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: size.width * 0.045,
+                                        fontFamily: 'GmarketSansTTFMedium',
+                                      ),
+                                    ),
                             ),
                           ),
                           SizedBox(height: size.height * 0.01),

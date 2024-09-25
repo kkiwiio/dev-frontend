@@ -89,7 +89,9 @@ class _EmailSignupPageState extends State<EmailSignupPage> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                const SignupPassword()),
+                                                SignupPassword(
+                                                    email:
+                                                        _emailController.text)),
                                       );
                                     }
                                   : null,

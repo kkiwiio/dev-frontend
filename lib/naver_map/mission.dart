@@ -1,33 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
-import '../camera/display_image_screen.dart';
+import '../camera/guided_camera_screen.dart';
 
 class MissionDialog extends StatelessWidget {
   final String missionDescription;
   final String missionImage;
   final String idNumber;
-  final ImagePicker _picker = ImagePicker();
-  MissionDialog({
+  final String filterImage;
+
+  const MissionDialog({
     super.key,
     required this.missionDescription,
     required this.missionImage,
     required this.idNumber,
+    required this.filterImage,
   });
 
-  Future<void> _takePicture(BuildContext context) async {
-    final XFile? image = await _picker.pickImage(source: ImageSource.camera);
-
-    if (image != null) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) =>
-              DisplayImageScreen(imagePath: image.path, idNumber: idNumber),
+  void _openCamera(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => GuidedCameraScreen(
+          filterImage: filterImage,
+          idNumber: idNumber,
         ),
-      );
-    } else {
-      print('사진 촬영 취소');
-    }
+      ),
+    );
   }
 
   @override
@@ -80,7 +77,7 @@ class MissionDialog extends StatelessWidget {
                       borderRadius: BorderRadius.circular(20),
                     ),
                   ),
-                  onPressed: () => _takePicture(context),
+                  onPressed: () => _openCamera(context),
                   child: const Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
