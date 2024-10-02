@@ -43,8 +43,9 @@ class MissionDialog extends StatelessWidget {
               child: Text(
                 '미션',
                 style: TextStyle(
-                  fontSize: 20,
+                  fontSize: 24,
                   fontWeight: FontWeight.bold,
+                  fontFamily: 'GmarketSansTTFBold',
                 ),
               ),
             ),
@@ -53,7 +54,8 @@ class MissionDialog extends StatelessWidget {
               child: Text(
                 missionDescription,
                 style: const TextStyle(
-                  fontSize: 13,
+                  fontSize: 16,
+                    fontFamily: 'GmarketSansTTFMedium',
                 ),
                 textAlign: TextAlign.center,
               ),

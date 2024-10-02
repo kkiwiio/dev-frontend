@@ -20,14 +20,14 @@ class _NaverMapAppState extends State<NaverMapApp> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   List<CampusMarker> sortedBuildings = [];
 
-  Future<int> loadRewardPoints() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getInt('rewardPoints') ?? 0;
-  }
-
-  Future<void> openSidebar() async {
-    _scaffoldKey.currentState?.openDrawer();
-  }
+  // Future<int> loadRewardPoints() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   return prefs.getInt('rewardPoints') ?? 0;
+  // }
+  //
+  // Future<void> openSidebar() async {
+  //   _scaffoldKey.currentState?.openDrawer();
+  // }
 
   void updateSortedBuildings(List<CampusMarker> buildings) {
     setState(() {
@@ -68,44 +68,44 @@ class _NaverMapAppState extends State<NaverMapApp> {
               // setMarkerTapListeners(markers, context, locationService);
             },
           ),
-          Positioned(
-            top: 50,
-            left: 0,
-            right: 300,
-            child: Center(
-              child: Builder(builder: (context) {
-                return GestureDetector(
-                  onTap: openSidebar,
-                  child: Column(
-                    children: [
-                      Image.asset(
-                        'assets/images/transform.png',
-                        width: 60,
-                        height: 60,
-                      ),
-                      const SizedBox(height: 5),
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 4, horizontal: 8),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(4),
-                        ),
-                        child: const Text(
-                          'AI 변환',
-                          style: TextStyle(
-                            fontFamily: 'GmarketSansTTFMedium',
-                            fontSize: 18,
-                            fontWeight: FontWeight.normal,
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                );
-              }),
-            ),
-          ),
+          // Positioned(
+          //   top: 50,
+          //   left: 0,
+          //   right: 300,
+          //   child: Center(
+          //     child: Builder(builder: (context) {
+          //       return GestureDetector(
+          //         onTap: openSidebar,
+          //         child: Column(
+          //           children: [
+          //             Image.asset(
+          //               'assets/images/transform.png',
+          //               width: 60,
+          //               height: 60,
+          //             ),
+          //             const SizedBox(height: 5),
+          //             Container(
+          //               padding: const EdgeInsets.symmetric(
+          //                   vertical: 4, horizontal: 8),
+          //               decoration: BoxDecoration(
+          //                 color: Colors.white,
+          //                 borderRadius: BorderRadius.circular(4),
+          //               ),
+          //               child: const Text(
+          //                 'AI 변환',
+          //                 style: TextStyle(
+          //                   fontFamily: 'GmarketSansTTFMedium',
+          //                   fontSize: 18,
+          //                   fontWeight: FontWeight.normal,
+          //                 ),
+          //               ),
+          //             )
+          //           ],
+          //         ),
+          //       );
+          //     }),
+          //   ),
+          // ),
           Positioned(
             bottom: 20,
             width: MediaQuery.of(context).size.width * 0.7,

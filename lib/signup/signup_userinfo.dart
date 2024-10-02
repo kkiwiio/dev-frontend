@@ -60,15 +60,15 @@ class _SignupFormState extends State<SignupForm> {
           majorId: _majorIdMap[_selectedMajor] ?? 0,
           userId: widget.email,
         );
-        print('Sending user data: ${user.toJson()}');
+        // print('Sending user data: ${user.toJson()}');
         final result = await ApiService.signup(user);
-        print('Signup successful: $result');
+        // print('Signup successful: $result');
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('회원가입이 완료되었습니다')),
         );
         Navigator.of(context).popUntil((route) => route.isFirst);
       } catch (e) {
-        print('Signup failed: $e');
+        // print('Signup failed: $e');
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('회원가입에 실패했습니다: ${e.toString()}')),
         );

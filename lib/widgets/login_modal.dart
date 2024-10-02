@@ -121,7 +121,13 @@ class _LoginModalState extends State<LoginModal> {
                                 hintText: '아이디',
                                 hintStyle: TextStyle(
                                     fontFamily: 'GmarketSansTTFMedium'),
-                                border: UnderlineInputBorder(),
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.grey),
+                                ),
+                                focusedBorder: UnderlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: Color(0xFF87C159)),
+                                ),
                               ),
                             ),
                           ),
@@ -135,7 +141,13 @@ class _LoginModalState extends State<LoginModal> {
                                 hintText: '비밀번호',
                                 hintStyle: TextStyle(
                                     fontFamily: 'GmarketSansTTFMedium'),
-                                border: UnderlineInputBorder(),
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.grey),
+                                ),
+                                focusedBorder: UnderlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: Color(0xFF87C159)),
+                                ),
                               ),
                             ),
                           ),
