@@ -3,7 +3,8 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ApiService {
-  static const String baseUrl = 'http://10.0.2.2:8088';
+  static const String baseUrl = 'http://10.0.2.2:8080';
+
   static Future<String> signup(Users user) async {
     try {
       print('Sending signup request: ${user.toJson()}');
@@ -25,33 +26,50 @@ class ApiService {
   }
 
   static Future<String> login(String userId, String password) async {
-    final response = await http.post(
-      Uri.parse('$baseUrl/api/users/login'),
-      headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({'userId': userId, 'password': password}),
-    );
+    try {
+      final response = await http.post(
+        Uri.parse('$baseUrl/api/users/login'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({'userId': userId, 'password': password}),
+      );
 
-    if (response.statusCode == 200) {
-      // 로그인 성공 시 세션 ID나 토큰을 저장합니다.
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.setString('sessionId', response.headers['set-cookie'] ?? '');
-      return 'Login successful';
-    } else {
-      throw Exception('Failed to login: ${response.body}');
+      if (response.statusCode == 200) {
+        // 로그인 성공 시 쿠키(세션 ID)를 저장합니다.
+        String? rawCookie = response.headers['set-cookie'];
+        if (rawCookie != null) {
+          int index = rawCookie.indexOf(';');
+          String cookie =
+              (index == -1) ? rawCookie : rawCookie.substring(0, index);
+          final prefs = await SharedPreferences.getInstance();
+          await prefs.setString('sessionCookie', cookie);
+          print('Session cookie saved: $cookie');
+        } else {
+          print('No session cookie found in response headers');
+        }
+        return 'Login successful';
+      } else {
+        throw Exception('Failed to login: ${response.body}');
+      }
+    } catch (e) {
+      print('Error during login: $e');
+      rethrow;
     }
   }
 
-  static Future<String> completeMission(int buildingNumber) async {
+  static Future<String?> getSessionCookie() async {
     final prefs = await SharedPreferences.getInstance();
-    final sessionId = prefs.getString('sessionId');
+    return prefs.getString('sessionCookie');
+  }
 
-    if (sessionId == null) {
+  static Future<String> completeMission(int buildingNumber) async {
+    final sessionCookie = await getSessionCookie();
+    if (sessionCookie == null) {
       throw Exception('Not logged in');
     }
 
     final response = await http.post(
       Uri.parse('$baseUrl/missions/building/$buildingNumber'),
-      headers: {'Cookie': sessionId},
+      headers: {'Cookie': sessionCookie},
     );
 
     if (response.statusCode == 200) {
@@ -62,16 +80,14 @@ class ApiService {
   }
 
   static Future<String> getMajorInfo() async {
-    final prefs = await SharedPreferences.getInstance();
-    final sessionId = prefs.getString('sessionId');
-
-    if (sessionId == null) {
+    final sessionCookie = await getSessionCookie();
+    if (sessionCookie == null) {
       throw Exception('Not logged in');
     }
 
     final response = await http.get(
       Uri.parse('$baseUrl/major/info'),
-      headers: {'Cookie': sessionId},
+      headers: {'Cookie': sessionCookie},
     );
 
     if (response.statusCode == 200) {
@@ -82,16 +98,14 @@ class ApiService {
   }
 
   static Future<Users> getUserInfo() async {
-    final prefs = await SharedPreferences.getInstance();
-    final sessionId = prefs.getString('sessionId');
-
-    if (sessionId == null) {
+    final sessionCookie = await getSessionCookie();
+    if (sessionCookie == null) {
       throw Exception('Not logged in');
     }
 
     final response = await http.get(
       Uri.parse('$baseUrl/users/info'),
-      headers: {'Cookie': sessionId},
+      headers: {'Cookie': sessionCookie},
     );
 
     if (response.statusCode == 200) {
@@ -103,15 +117,15 @@ class ApiService {
 }
 
 class Users {
-  final String userId; // 이메일 주소
+  final String userId;
   final String? password;
   final String userName;
   final int majorId;
-  final String studentId; // 학번
+  final String studentId;
 
   Users({
     required this.userId,
-    required this.password,
+    this.password,
     required this.userName,
     required this.majorId,
     required this.studentId,
@@ -140,11 +154,12 @@ class MissionEntity {
   final int buildingId;
   final bool completed;
 
-  MissionEntity(
-      {required this.id,
-      required this.userId,
-      required this.buildingId,
-      required this.completed});
+  MissionEntity({
+    required this.id,
+    required this.userId,
+    required this.buildingId,
+    required this.completed,
+  });
 
   factory MissionEntity.fromJson(Map<String, dynamic> json) => MissionEntity(
         id: json['id'],

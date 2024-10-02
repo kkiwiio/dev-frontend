@@ -87,7 +87,8 @@ class _GuidedCameraScreenState extends State<GuidedCameraScreen> {
                     padding: const EdgeInsets.only(bottom: 20.0),
                     child: FloatingActionButton(
                       onPressed: _takePicture,
-                      child: const Icon(Icons.camera_alt),
+                    backgroundColor: Color(0xFF87C159),
+                      child: const Icon(Icons.camera_alt,color: Colors.white,),
                     ),
                   ),
                 ),
