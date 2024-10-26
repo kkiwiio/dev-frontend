@@ -3,6 +3,7 @@ import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class TransformedImageScreen extends StatelessWidget {
   final String imageUrl;
@@ -25,7 +26,8 @@ class TransformedImageScreen extends StatelessWidget {
 
       if (result['isSuccess']) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('이미지가 갤러리에 저장되었습니다.')),
+          SnackBar(
+              content: Text(AppLocalizations.of(context)!.saveGalleryDialog)),
         );
 
         // 잠시 대기 후 네이버 지도 화면으로 돌아가기
@@ -40,7 +42,8 @@ class TransformedImageScreen extends StatelessWidget {
       print('Error saving image: $e');
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('이미지 저장 중 오류가 발생했습니다.')),
+          SnackBar(
+              content: Text(AppLocalizations.of(context)!.saveGalleryError)),
         );
       }
     }
@@ -50,8 +53,8 @@ class TransformedImageScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('변환된 이미지',
-            style: TextStyle(fontFamily: 'GmarketSansTTFMedium')),
+        title: Text(AppLocalizations.of(context)!.transformedImage,
+            style: const TextStyle(fontFamily: 'GmarketSansTTFMedium')),
         backgroundColor: Colors.white,
       ),
       body: Column(
@@ -67,7 +70,7 @@ class TransformedImageScreen extends StatelessWidget {
                     child: CircularProgressIndicator(
                       value: loadingProgress.expectedTotalBytes != null
                           ? loadingProgress.cumulativeBytesLoaded /
-                          loadingProgress.expectedTotalBytes!
+                              loadingProgress.expectedTotalBytes!
                           : null,
                     ),
                   );
@@ -77,18 +80,19 @@ class TransformedImageScreen extends StatelessWidget {
                   return Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text('이미지를 불러오는 데 실패했습니다.'),
+                      Text(AppLocalizations.of(context)!.loadingfail),
                       const SizedBox(height: 20),
                       ElevatedButton(
                         onPressed: () {
                           Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => TransformedImageScreen(imageUrl: imageUrl),
+                              builder: (context) =>
+                                  TransformedImageScreen(imageUrl: imageUrl),
                             ),
                           );
                         },
-                        child: const Text('다시 시도'),
+                        child: Text(AppLocalizations.of(context)!.tryAgain),
                       ),
                     ],
                   );
@@ -100,13 +104,14 @@ class TransformedImageScreen extends StatelessWidget {
             padding: const EdgeInsets.all(16.0),
             child: ElevatedButton.icon(
               icon: const Icon(Icons.save_alt),
-              label: const Text('갤러리에 저장',
-                  style: TextStyle(fontFamily: 'GmarketSansTTFMedium')),
+              label: Text(AppLocalizations.of(context)!.saveimage,
+                  style: const TextStyle(fontFamily: 'GmarketSansTTFMedium')),
               onPressed: () => _saveImage(context),
               style: ElevatedButton.styleFrom(
                 foregroundColor: Colors.white,
                 backgroundColor: Colors.blue,
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
               ),
             ),
           ),

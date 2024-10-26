@@ -1,37 +1,43 @@
 import 'package:flutter/material.dart';
 import '../widgets/login_modal.dart';
 import 'dart:async';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class OnboardingPage extends StatefulWidget {
   const OnboardingPage({super.key});
 
   @override
-  _OnboardingPageState createState() => _OnboardingPageState();
+  OnboardingPageState createState() => OnboardingPageState();
 }
 
-class _OnboardingPageState extends State<OnboardingPage> {
+class OnboardingPageState extends State<OnboardingPage> {
   final PageController _pageController = PageController();
   int _currentPage = 0;
   Timer? _timer;
   bool _isLoginVisible = false;
+  late List<OnboardingItem> _items;
 
-  final List<OnboardingItem> _items = [
-    OnboardingItem(
-      image: 'assets/images/splash_img1.png',
-      title: '탐험하세요',
-      description: '학교 구석구석을 탐방하여\n미션을 발견하세요',
-    ),
-    OnboardingItem(
-      image: 'assets/images/splash_img2.png',
-      title: '촬영하세요',
-      description: '학교 건물을 배경으로\n미션에 맞게 사진을 촬영하세요',
-    ),
-    OnboardingItem(
-      image: 'assets/images/splash_img3.png',
-      title: '제출하세요',
-      description: 'AI가 자동으로 장소를 인식하고\n사진을 변환해줍니다',
-    ),
-  ];
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _items = [
+      OnboardingItem(
+        image: 'assets/images/splash_img1.png',
+        title: AppLocalizations.of(context)!.explore,
+        description: AppLocalizations.of(context)!.exploreDescription,
+      ),
+      OnboardingItem(
+        image: 'assets/images/splash_img2.png',
+        title: AppLocalizations.of(context)!.capture,
+        description: AppLocalizations.of(context)!.captureDescription,
+      ),
+      OnboardingItem(
+        image: 'assets/images/splash_img3.png',
+        title: AppLocalizations.of(context)!.submit,
+        description: AppLocalizations.of(context)!.submitDescription,
+      ),
+    ];
+  }
 
   @override
   void initState() {
@@ -120,9 +126,9 @@ class _OnboardingPageState extends State<OnboardingPage> {
               borderRadius: BorderRadius.circular(20),
             ),
           ),
-          child: const Text(
-            '로그인',
-            style: TextStyle(
+          child: Text(
+            AppLocalizations.of(context)!.login,
+            style: const TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w400,
               color: Colors.white,
@@ -168,7 +174,7 @@ class OnboardingItemWidget extends StatelessWidget {
           Text(
             item.title,
             style: const TextStyle(
-              fontSize: 28,
+              fontSize: 24,
               fontWeight: FontWeight.w700,
               color: Color(0xff595959),
               fontFamily: 'GmarketSansTTFBold',
@@ -184,7 +190,7 @@ class OnboardingItemWidget extends StatelessWidget {
           Text(
             item.description,
             style: const TextStyle(
-              fontSize: 20,
+              fontSize: 18,
               fontWeight: FontWeight.w500,
               color: Color(0xff595959),
               fontFamily: 'GmarketSansTTFMedium',

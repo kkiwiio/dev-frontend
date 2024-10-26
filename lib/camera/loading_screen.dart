@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LoadingScreen extends StatelessWidget {
-  const LoadingScreen({Key? key}) : super(key: key);
+  const LoadingScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -9,12 +10,12 @@ class LoadingScreen extends StatelessWidget {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
-            CircularProgressIndicator(),
-            SizedBox(height: 20),
+          children: [
+            const CircularProgressIndicator(),
+            const SizedBox(height: 20),
             Text(
-              '이미지를 변환중이에요. 잠시만 기다려주세요...',
-              style: TextStyle(
+              AppLocalizations.of(context)!.transformingImage,
+              style: const TextStyle(
                 fontFamily: 'GmarketSansTTFMedium',
                 fontSize: 16,
               ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import '../services/api_service.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SignupForm extends StatefulWidget {
   final String email;
@@ -16,28 +17,33 @@ class SignupForm extends StatefulWidget {
 class _SignupFormState extends State<SignupForm> {
   File? _image;
   final _formKey = GlobalKey<FormState>();
-
   final _nameController = TextEditingController();
   final _studentIdController = TextEditingController();
   String? _selectedMajor;
-  final Map<String, int> _majorIdMap = {
-    '일어일본한전공': 1,
-    '중어중국학전공': 2,
-    '종교와신학전공': 3,
-    '경영학전공': 4,
-    '사회복지학전공': 5,
-    '사회학전공': 6,
-    '경제학전공': 7,
-    '정치외교학전공': 8,
-    '신문방송학전공': 9,
-    '디지털콘텐츠전공': 10,
-    '영상콘텐츠전공': 11,
-    '인공지능전공': 12,
-    '빅데이터 응용전공': 13,
-    '소프트웨어 융합전공': 14,
-    '대학원': 15,
-    '학과없음': 16,
-  };
+  late Map<String, int> _majorIdMap;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _majorIdMap = {
+      AppLocalizations.of(context)!.majorJapanese: 1,
+      AppLocalizations.of(context)!.majorChinese: 2,
+      AppLocalizations.of(context)!.majorTheology: 3,
+      AppLocalizations.of(context)!.majorBusiness: 4,
+      AppLocalizations.of(context)!.majorSocialWelfare: 5,
+      AppLocalizations.of(context)!.majorSociology: 6,
+      AppLocalizations.of(context)!.majorEconomics: 7,
+      AppLocalizations.of(context)!.majorPolitics: 8,
+      AppLocalizations.of(context)!.majorJournalism: 9,
+      AppLocalizations.of(context)!.majorDigitalContents: 10,
+      AppLocalizations.of(context)!.majorVideoContents: 11,
+      AppLocalizations.of(context)!.majorAI: 12,
+      AppLocalizations.of(context)!.majorBigData: 13,
+      AppLocalizations.of(context)!.majorSoftware: 14,
+      AppLocalizations.of(context)!.majorGraduate: 15,
+      AppLocalizations.of(context)!.majorNone: 16,
+    };
+  }
 
   Future<void> _getImage() async {
     final pickedFile =
@@ -64,13 +70,13 @@ class _SignupFormState extends State<SignupForm> {
         final result = await ApiService.signup(user);
         // print('Signup successful: $result');
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('회원가입이 완료되었습니다')),
+          SnackBar(content: Text(AppLocalizations.of(context)!.signupSuccess)),
         );
         Navigator.of(context).popUntil((route) => route.isFirst);
       } catch (e) {
         // print('Signup failed: $e');
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('회원가입에 실패했습니다: ${e.toString()}')),
+          SnackBar(content: Text(AppLocalizations.of(context)!.signupError)),
         );
       }
     }
@@ -90,9 +96,9 @@ class _SignupFormState extends State<SignupForm> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SizedBox(height: screenHeight * 0.05),
-                const Text(
-                  '회원가입',
-                  style: TextStyle(
+                Text(
+                  AppLocalizations.of(context)!.signup,
+                  style: const TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
                       fontFamily: 'GmarketSansTTFMedium'),
@@ -138,74 +144,77 @@ class _SignupFormState extends State<SignupForm> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text('이름',
-                          style: TextStyle(
+                      Text(AppLocalizations.of(context)!.name,
+                          style: const TextStyle(
                             fontSize: 20,
                             fontFamily: 'GmarketSansTTFBold',
                           )),
                       SizedBox(height: screenHeight * 0.01),
                       TextFormField(
                         controller: _nameController,
-                        decoration: const InputDecoration(
-                          hintText: '이름을 입력하세요',
-                          hintStyle: TextStyle(
+                        decoration: InputDecoration(
+                          hintText:
+                              AppLocalizations.of(context)!.namePlaceholder,
+                          hintStyle: const TextStyle(
                             fontFamily: 'GmarketSansTTFMedium',
-                            fontSize: 15,
+                            fontSize: 12,
                           ),
-                          border: OutlineInputBorder(),
-                          focusedBorder: OutlineInputBorder(
+                          border: const OutlineInputBorder(),
+                          focusedBorder: const OutlineInputBorder(
                             borderSide: BorderSide(
                                 color: Color(0xffA1A1A1), width: 2.0),
                           ),
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return '이름을 입력해주세요';
+                            return AppLocalizations.of(context)!.nameError;
                           }
                           return null;
                         },
                       ),
                       SizedBox(height: screenHeight * 0.02),
-                      const Text('학번',
-                          style: TextStyle(
+                      Text(AppLocalizations.of(context)!.studentId,
+                          style: const TextStyle(
                               fontSize: 20, fontFamily: 'GmarketSansTTFBold')),
                       SizedBox(height: screenHeight * 0.01),
                       TextFormField(
                         controller: _studentIdController,
-                        decoration: const InputDecoration(
-                          hintText: '학번(9자리)을 입력하세요',
-                          hintStyle: TextStyle(
+                        decoration: InputDecoration(
+                          hintText: AppLocalizations.of(context)!
+                              .studentIdPlaceholder,
+                          hintStyle: const TextStyle(
                             fontFamily: 'GmarketSansTTFMedium',
-                            fontSize: 15,
+                            fontSize: 12,
                           ),
-                          border: OutlineInputBorder(),
-                          focusedBorder: OutlineInputBorder(
+                          border: const OutlineInputBorder(),
+                          focusedBorder: const OutlineInputBorder(
                             borderSide: BorderSide(
                                 color: Color(0xffA1A1A1), width: 2.0),
                           ),
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return '학번을 입력해주세요';
+                            return AppLocalizations.of(context)!
+                                .studentIdError2;
                           }
                           if (value.length != 9) {
-                            return '학번은 9자리여야 합니다';
+                            return AppLocalizations.of(context)!.studentIdError;
                           }
                           return null;
                         },
                       ),
                       SizedBox(height: screenHeight * 0.02),
-                      const Text('전공',
-                          style: TextStyle(
+                      Text(AppLocalizations.of(context)!.major,
+                          style: const TextStyle(
                               fontSize: 20, fontFamily: 'GmarketSansTTFBold')),
                       SizedBox(height: screenHeight * 0.01),
                       DropdownButtonFormField<String>(
                         value: _selectedMajor,
-                        hint: const Text(
-                          '전공을 선택하세요',
-                          style: TextStyle(
+                        hint: Text(
+                          AppLocalizations.of(context)!.majorPlaceholder,
+                          style: const TextStyle(
                             fontFamily: 'GmarketSansTTFMedium',
-                            fontSize: 15,
+                            fontSize: 12,
                           ),
                         ),
                         onChanged: (String? newValue) {
@@ -215,7 +224,7 @@ class _SignupFormState extends State<SignupForm> {
                         },
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return '전공을 선택해주세요';
+                            return AppLocalizations.of(context)!.majorError;
                           }
                           return null;
                         },
@@ -254,8 +263,8 @@ class _SignupFormState extends State<SignupForm> {
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
-                  child: const Text('가입하기',
-                      style: TextStyle(
+                  child: Text(AppLocalizations.of(context)!.signupButton,
+                      style: const TextStyle(
                           fontSize: 18,
                           fontFamily: 'GmarketSansTTFMedium',
                           color: Colors.white)),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../camera/guided_camera_screen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MissionDialog extends StatelessWidget {
   final String missionDescription;
@@ -39,11 +40,11 @@ class MissionDialog extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const Center(
+            Center(
               child: Text(
-                '미션',
-                style: TextStyle(
-                  fontSize: 24,
+                AppLocalizations.of(context)!.mission,
+                style: const TextStyle(
+                  fontSize: 22,
                   fontWeight: FontWeight.bold,
                   fontFamily: 'GmarketSansTTFBold',
                 ),
@@ -54,8 +55,8 @@ class MissionDialog extends StatelessWidget {
               child: Text(
                 missionDescription,
                 style: const TextStyle(
-                  fontSize: 16,
-                    fontFamily: 'GmarketSansTTFMedium',
+                  fontSize: 13,
+                  fontFamily: 'GmarketSansTTFMedium',
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -80,14 +81,14 @@ class MissionDialog extends StatelessWidget {
                     ),
                   ),
                   onPressed: () => _openCamera(context),
-                  child: const Row(
+                  child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Icon(Icons.camera_alt, color: Colors.black),
-                      SizedBox(width: 8),
+                      const Icon(Icons.camera_alt, color: Colors.black),
+                      const SizedBox(width: 8),
                       Text(
-                        "사진찍기",
-                        style: TextStyle(
+                        AppLocalizations.of(context)!.photo,
+                        style: const TextStyle(
                           color: Colors.white,
                           fontSize: 14,
                         ),

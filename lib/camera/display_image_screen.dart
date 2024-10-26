@@ -4,6 +4,7 @@ import 'package:flutter_exif_rotation/flutter_exif_rotation.dart';
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart' as path;
 import 'mission_result_dialogs.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DisplayImageScreen extends StatelessWidget {
   final String imagePath;
@@ -80,8 +81,8 @@ class DisplayImageScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('촬영된 사진',style:
-        TextStyle(color: Colors.white)),
+        title: Text(AppLocalizations.of(context)!.phototaken,
+            style: const TextStyle(color: Colors.white)),
         backgroundColor: Colors.black,
       ),
       body: FutureBuilder<File>(
@@ -110,9 +111,9 @@ class DisplayImageScreen extends StatelessWidget {
                     children: [
                       ElevatedButton.icon(
                         icon: const Icon(Icons.camera_alt),
-                        label: const Text('다시 찍기',
-                            style:
-                                TextStyle(fontFamily: 'GmarketSansTTFMedium')),
+                        label: Text(AppLocalizations.of(context)!.photoagain,
+                            style: const TextStyle(
+                                fontFamily: 'GmarketSansTTFMedium')),
                         onPressed: () => _retakePicture(context),
                         style: ElevatedButton.styleFrom(
                           foregroundColor: Colors.white,
@@ -123,13 +124,13 @@ class DisplayImageScreen extends StatelessWidget {
                       ),
                       ElevatedButton.icon(
                         icon: const Icon(Icons.check),
-                        label: const Text('제출하기',
-                            style:
-                                TextStyle(fontFamily: 'GmarketSansTTFMedium')),
+                        label: Text(AppLocalizations.of(context)!.submitphoto,
+                            style: const TextStyle(
+                                fontFamily: 'GmarketSansTTFMedium')),
                         onPressed: () => _submitPicture(context),
                         style: ElevatedButton.styleFrom(
                           foregroundColor: Colors.white,
-                          backgroundColor: Color(0xFF87C159),
+                          backgroundColor: const Color(0xFF87C159),
                           padding: const EdgeInsets.symmetric(
                               horizontal: 20, vertical: 12),
                         ),

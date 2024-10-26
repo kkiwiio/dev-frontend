@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import './signup_password.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class EmailSignupPage extends StatefulWidget {
   const EmailSignupPage({super.key});
@@ -21,7 +22,8 @@ class _EmailSignupPageState extends State<EmailSignupPage> {
       } else {
         _isEmailValid =
             RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value);
-        _errorMessage = _isEmailValid ? null : '이메일 양식을 확인해주세요';
+        _errorMessage =
+            _isEmailValid ? null : AppLocalizations.of(context)!.emailError;
       }
     });
   }
@@ -44,7 +46,7 @@ class _EmailSignupPageState extends State<EmailSignupPage> {
                     children: [
                       SizedBox(height: constraints.maxHeight * 0.2),
                       Text(
-                        '스쿠벤처에 오신걸\n환영합니다👋',
+                        AppLocalizations.of(context)!.signuptitle,
                         style: TextStyle(
                           fontSize: constraints.maxWidth * 0.07,
                           fontWeight: FontWeight.bold,
@@ -58,10 +60,11 @@ class _EmailSignupPageState extends State<EmailSignupPage> {
                           child: TextField(
                             controller: _emailController,
                             decoration: InputDecoration(
-                              hintText: '이메일 주소를 입력해주세요',
+                              hintText: AppLocalizations.of(context)!
+                                  .emailPlaceholder,
                               hintStyle: const TextStyle(
                                   fontFamily: 'GmarketSansTTFMedium',
-                                  fontSize: 15),
+                                  fontSize: 12),
                               errorText: _errorMessage,
                               border: const UnderlineInputBorder(),
                               focusedBorder: const UnderlineInputBorder(
@@ -125,8 +128,9 @@ class _EmailSignupPageState extends State<EmailSignupPage> {
                                   const EdgeInsets.symmetric(vertical: 15),
                                 ),
                               ),
-                              child: const Text('계속하기',
-                                  style: TextStyle(
+                              child: Text(
+                                  AppLocalizations.of(context)!.continueButton,
+                                  style: const TextStyle(
                                       fontFamily: 'GmarketSansTTFMedium')),
                             ),
                           ),

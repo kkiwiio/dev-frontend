@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../signup/signup_email.dart';
 import '../naver_map/naver_map.dart';
 import '../services/api_service.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LoginModal extends StatefulWidget {
   final VoidCallback onClose;
@@ -51,13 +52,13 @@ class _LoginModalState extends State<LoginModal> {
       } else {
         // 로그인 실패 메시지 표시
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('아이디 또는 비밀번호를 확인해주세요')),
+          SnackBar(content: Text(AppLocalizations.of(context)!.loginError)),
         );
       }
     } catch (e) {
       print('Login failed: $e');
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('아이디 또는 비밀번호를 확인해주세요')),
+        SnackBar(content: Text(AppLocalizations.of(context)!.loginError)),
       );
     } finally {
       setState(() {
@@ -105,7 +106,7 @@ class _LoginModalState extends State<LoginModal> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Text(
-                            '로그인',
+                            AppLocalizations.of(context)!.login,
                             style: TextStyle(
                               fontFamily: 'GmarketSansTTFBold',
                               fontSize: size.width * 0.06,
@@ -117,14 +118,14 @@ class _LoginModalState extends State<LoginModal> {
                             width: inputWidth,
                             child: TextField(
                               controller: _usernameController,
-                              decoration: const InputDecoration(
-                                hintText: '아이디',
-                                hintStyle: TextStyle(
+                              decoration: InputDecoration(
+                                hintText: AppLocalizations.of(context)!.id,
+                                hintStyle: const TextStyle(
                                     fontFamily: 'GmarketSansTTFMedium'),
-                                enabledBorder: UnderlineInputBorder(
+                                enabledBorder: const UnderlineInputBorder(
                                   borderSide: BorderSide(color: Colors.grey),
                                 ),
-                                focusedBorder: UnderlineInputBorder(
+                                focusedBorder: const UnderlineInputBorder(
                                   borderSide:
                                       BorderSide(color: Color(0xFF87C159)),
                                 ),
@@ -137,14 +138,15 @@ class _LoginModalState extends State<LoginModal> {
                             child: TextField(
                               controller: _passwordController,
                               obscureText: true,
-                              decoration: const InputDecoration(
-                                hintText: '비밀번호',
-                                hintStyle: TextStyle(
+                              decoration: InputDecoration(
+                                hintText:
+                                    AppLocalizations.of(context)!.password,
+                                hintStyle: const TextStyle(
                                     fontFamily: 'GmarketSansTTFMedium'),
-                                enabledBorder: UnderlineInputBorder(
+                                enabledBorder: const UnderlineInputBorder(
                                   borderSide: BorderSide(color: Colors.grey),
                                 ),
-                                focusedBorder: UnderlineInputBorder(
+                                focusedBorder: const UnderlineInputBorder(
                                   borderSide:
                                       BorderSide(color: Color(0xFF87C159)),
                                 ),
@@ -167,7 +169,7 @@ class _LoginModalState extends State<LoginModal> {
                                   ? const CircularProgressIndicator(
                                       color: Colors.white)
                                   : Text(
-                                      '시작하기',
+                                      AppLocalizations.of(context)!.startButton,
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontSize: size.width * 0.045,
@@ -182,7 +184,7 @@ class _LoginModalState extends State<LoginModal> {
                             child: GestureDetector(
                               onTap: _onSignUpPressed,
                               child: Text(
-                                '회원가입',
+                                AppLocalizations.of(context)!.signup,
                                 style: TextStyle(
                                   fontSize: size.width * 0.035,
                                   decoration: TextDecoration.underline,

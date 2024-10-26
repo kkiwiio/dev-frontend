@@ -1,0 +1,122 @@
+{
+
+    "explore": "Explore",
+    "exploreDescription": "Explore every corner\nof the school \nto discover missions",
+    "capture": "Capture",
+    "captureDescription": "Take photos on a mission \nwith the school building \nas a backdrop",
+    "submit": "Submit",
+    "submitDescription": "AI automatically recognizes places and converts photos \nfor you",
+    
+
+    "login": "Login",
+    "id": "Id",
+    "password": "Password",
+    "startButton": "Start",
+    "signup": "Sign Up",
+    "loginError": "Please confirm your Id or Password",
+
+
+
+    "signuptitle": "Welcome to \nSKHU VENTURE👋",
+    "emailPlaceholder": "Enter your email address",
+    "emailError": "Please check your email format",
+    "continueButton": "Continue",
+
+
+    "signupPasswordTitle": "Enter password",
+    "passwordPlaceholder": "Please enter your password",
+    "showPassword": "Show password",
+    "checkPassword": "Check password",
+    "confirmPassword": "Please enter your password again",
+    "passwordValid": "It's not 6 digits yet",
+    "passwordConfirmError": "Passwords do not match",
+
+
+    "name": "Name",
+    "namePlaceholder": "Please enter your name",
+    "nameError": "Please enter your name",
+    "studentId": "Student ID",
+    "studentIdPlaceholder": "Please enter your student ID(9 digits)",
+    "studentIdError": "Student ID must be 9 digits",
+    "studentIdError2": "Please enter your student ID",
+    "major": "Major",
+    "majorPlaceholder": "Please select your major",
+    "majorError": "Please select your major",
+    "signupButton": "Sign Up",
+    "signupSuccess": "Signup completed successfully",
+    "signupError": "Signup failed",
+    "majorJapanese": "Japanese Studies",
+    "majorChinese": "Chinese Studies",
+    "majorTheology": "Religion and Theology",
+    "majorBusiness": "Business Administration",
+    "majorSocialWelfare": "Social Welfare",
+    "majorSociology": "Sociology",
+    "majorEconomics": "Economics",
+    "majorPolitics": "Political Science & International Relations",
+    "majorJournalism": "Media & Journalism",
+    "majorDigitalContents": "Digital Contents",
+    "majorVideoContents": "Video Contents",
+    "majorAI": "Artificial Intelligence",
+    "majorBigData": "Applied Big Data",
+    "majorSoftware": "Computer Science",
+    "majorGraduate": "Graduate School",
+    "majorNone": "No major",
+
+    "building10": "Goodwin House",
+    "description10": "Guro Community Development Unit",
+    "mission10": "Please take the photo according to the composition guide.😄",
+
+    "building7": "SaeChunNyon Kwan",
+    "description7": "Humanities & Social Sciences Hall.",
+    "mission7": "Please take the photo according to the composition guide.😄",
+
+    "building5": "Nahnoom Kwan",
+    "description5": "Student Center",
+    "mission5": "Please take the photo according to the composition guide.😄",
+
+    "building1": "SeungYon Kwan",
+    "description1": "University Headquarters",
+    "mission1": "Please take the photo according to the composition guide.😄",
+
+    "building6": "Michael's & SaeChunNyon",
+    "description6": "Humanities&Social Sciences Hall",
+    "mission6": "Please take the photo according to the composition guide.😄",
+
+    "building8": "Main Library",
+    "description8": "Seminar room\nSungkonghoe History Archives",
+    "mission8": "Please take the photo according to the composition guide.😄",
+
+    "building3": "Woldang Kwan",
+    "description3": "AS Center, Music Lab, Lecture Room,",
+    "mission3": "Choose the correct answer",
+
+    "building2": "Ilman Kwan",
+    "description2": "Computer Lab\n industry-University Cooperation Foundation",
+    "mission2": "Please take the photo according to the composition guide.😄",
+    "mission": "Mission",
+    "photo": "Camera",
+
+    "phototaken":"Taken photo",
+    "photoagain":"Take again",
+    "submitphoto":"Submit",
+    "missionSuccess":"Mission completed!",
+    "missionSuccessDescription":"You have successfully completed the mission!",
+    "transformImage":"Image transformation",
+    "transformError":"An error occurred while transforming the image",  
+    "missionFailure":"Mission failed",
+    "missionFailureDescription":"Mission failed. \nDo you want to try again?",
+    "cancel":"Cancel",
+    "tryAgain":"Try again",
+    "uploadFailure":"Upload failed",
+    "uploadFailureDescription":"Failed to upload image. Please try again.",
+    "uploadFailureDetail":"Error detail:", 
+    "ok":"OK",
+    "saveGalleryDialog":"Image saved to gallery",
+    "saveGalleryError":"An error occurred while saving the image",
+    "transformedImage":"Transformed image",
+    "loadingfail":"Failed to load image.",
+    "saveimage":"Save to gallery",
+    "transformingImage":"Image is being transformed. Please wait..."
+
+
+}

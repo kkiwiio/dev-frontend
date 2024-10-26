@@ -4,10 +4,11 @@ import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:location/location.dart';
 import '../naver_map/campusmarker_model.dart';
 import '../utils/distance_calc.dart';
-import '../naver_map/maker_campus.dart'; // allMarkers를 가져오기 위해 추가
+import '../naver_map/maker_campus.dart';
 
 class LocationService {
   final NaverMapController mapController;
+  final BuildContext context;
   NMarker? _currentLocationMarker;
   Location location = Location();
   late bool _serviceEnabled;
@@ -16,8 +17,10 @@ class LocationService {
 
   List<CampusMarker> sortedBuildings = [];
   Function(List<CampusMarker>)? onBuildingsSorted;
+  List<CampusMarker>? _markers;
 
-  LocationService(this.mapController) {
+  LocationService(this.mapController, this.context) {
+    _markers = getAllMarkers(context);
     _initializeLocation();
   }
 
@@ -105,10 +108,12 @@ class LocationService {
       ),
     );
 
-    // 건물 정렬 및 UI 업데이트
-    sortedBuildings = sortBuildingsByDistance(locationData, allMarkers);
-    if (onBuildingsSorted != null) {
-      onBuildingsSorted!(sortedBuildings);
+    // 마커가 있는 경우에만 정렬 수행
+    if (_markers != null) {
+      sortedBuildings = sortBuildingsByDistance(locationData, _markers!);
+      if (onBuildingsSorted != null) {
+        onBuildingsSorted!(sortedBuildings);
+      }
     }
   }
 
