@@ -2,24 +2,25 @@ import 'package:flutter/material.dart';
 import '../services/ImageTransform_service.dart';
 import './transform_image_screen.dart';
 import './loading_screen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void showMissionSuccessDialog(BuildContext context, String imagePath) {
   showDialog(
     context: context,
     builder: (BuildContext dialogContext) {
       return AlertDialog(
-        title: const Text('미션 성공',
-            style: TextStyle(fontFamily: 'GmarketSansTTFMedium')),
+        title: Text(AppLocalizations.of(context)!.missionSuccess,
+            style: const TextStyle(fontFamily: 'GmarketSansTTFMedium')),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Text('미션을 성공적으로 완료했습니다!',
-                style: TextStyle(fontFamily: 'GmarketSansTTFMedium')),
+            Text(AppLocalizations.of(context)!.missionSuccessDescription,
+                style: const TextStyle(fontFamily: 'GmarketSansTTFMedium')),
             const SizedBox(height: 20),
             ElevatedButton.icon(
               icon: const Icon(Icons.important_devices),
-              label: const Text('이미지 변환',
-                  style: TextStyle(fontFamily: 'GmarketSansTTFMedium')),
+              label: Text(AppLocalizations.of(context)!.transformImage,
+                  style: const TextStyle(fontFamily: 'GmarketSansTTFMedium')),
               onPressed: () async {
                 Navigator.of(dialogContext).pop(); // 다이얼로그 닫기
 
@@ -49,7 +50,9 @@ void showMissionSuccessDialog(BuildContext context, String imagePath) {
                     // 오류 발생 시 로딩 화면 제거
                     Navigator.of(context).pop();
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('이미지 변환 중 오류가 발생했습니다: $e')),
+                      SnackBar(
+                          content: Text(
+                              AppLocalizations.of(context)!.transformError)),
                     );
                   }
                 }
@@ -73,18 +76,22 @@ void showMissionFailureDialog(BuildContext context) {
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        title: const Text('미션 실패',style: TextStyle(fontFamily: 'GmarketSansTTFMedium')),
-        content: const Text('미션에 실패했습니다. \n다시 시도하시겠습니까?',  style: TextStyle(fontFamily: 'GmarketSansTTFMedium')),
+        title: Text(AppLocalizations.of(context)!.missionFailure,
+            style: const TextStyle(fontFamily: 'GmarketSansTTFMedium')),
+        content: Text(AppLocalizations.of(context)!.missionFailureDescription,
+            style: const TextStyle(fontFamily: 'GmarketSansTTFMedium')),
         actions: [
           TextButton(
-            child: const Text('다시 시도',  style: TextStyle(fontFamily: 'GmarketSansTTFMedium')),
+            child: Text(AppLocalizations.of(context)!.tryAgain,
+                style: const TextStyle(fontFamily: 'GmarketSansTTFMedium')),
             onPressed: () {
               Navigator.of(context).pop();
               // TODO: 여기에 미션을 다시 시도하는 로직을 추가하세요.
             },
           ),
           TextButton(
-            child: const Text('취소',  style: TextStyle(fontFamily: 'GmarketSansTTFMedium')),
+            child: Text(AppLocalizations.of(context)!.cancel,
+                style: const TextStyle(fontFamily: 'GmarketSansTTFMedium')),
             onPressed: () {
               Navigator.of(context).pop();
             },
@@ -101,20 +108,19 @@ void showUploadFailureDialog(BuildContext context, String errorMessage) {
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        title: const Text('업로드 실패'),
+        title: Text(AppLocalizations.of(context)!.uploadFailure),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('이미지 업로드에 실패했습니다. 다시 시도해 주세요.'),
+            Text(AppLocalizations.of(context)!.uploadFailureDescription),
             const SizedBox(height: 10),
-            const Text('오류 상세:'),
             Text(errorMessage, style: const TextStyle(fontSize: 12)),
           ],
         ),
         actions: [
           TextButton(
-            child: const Text('확인'),
+            child: Text(AppLocalizations.of(context)!.ok),
             onPressed: () {
               Navigator.of(context).pop();
             },

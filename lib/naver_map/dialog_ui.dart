@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:project_heck/naver_map/campusmarker_model.dart';
 import 'package:project_heck/naver_map/mission.dart';
 import 'package:project_heck/naver_map/quiz.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class TopRoundedClipper extends CustomClipper<Path> {
   @override
@@ -52,7 +53,7 @@ void showMarkerDialog(BuildContext context, CampusMarker campusmarker) {
                 clipper: TopRoundedClipper(),
                 child: Image.asset(
                   campusmarker.imagePath,
-                  height: 150,
+                  height: 130,
                   width: double.infinity,
                   fit: BoxFit.cover,
                 ),
@@ -87,7 +88,8 @@ void showMarkerDialog(BuildContext context, CampusMarker campusmarker) {
                     ),
                   ),
                   onPressed: () {
-                    if (campusmarker.buildingName == '월당관') {
+                    if (campusmarker.buildingName ==
+                        AppLocalizations.of(context)!.building3) {
                       Navigator.of(context).pop();
                       showDialog(
                         context: context,
@@ -110,9 +112,9 @@ void showMarkerDialog(BuildContext context, CampusMarker campusmarker) {
                       );
                     }
                   },
-                  child: const Text(
-                    "미션하기",
-                    style: TextStyle(
+                  child: Text(
+                    AppLocalizations.of(context)!.mission,
+                    style: const TextStyle(
                       color: Color.fromARGB(255, 0, 0, 0),
                       fontFamily: 'GmarketSansTTFBol',
                       fontSize: 14,

@@ -1,0 +1,125 @@
+{
+    "explore": "탐험하세요",
+    "exploreDescription": "학교 구석구석을 탐방하여\n미션을 발견하세요",
+    "capture": "촬영하세요",
+    "captureDescription": "학교 건물을 배경으로\n미션에 맞게 사진을 촬영하세요",
+    "submit": "제출하세요",
+    "submitDescription": "AI가 자동으로 장소를 인식하고\n사진을 변환해줍니다",
+    
+    "login": "로그인",
+    "id": "아이디",
+    "password": "비밀번호",
+    "startButton": "시작하기",
+    "signup": "회원가입",
+    "loginError": "아이디 또는 비밀번호를 확인해주세요",
+
+    "signuptitle": "스쿠벤처에 오신걸\n환영합니다👋",
+    "emailPlaceholder": "이메일 주소를 입력해주세요",
+    "emailError": "이메일 양식을 확인해주세요",
+    "continueButton": "계속하기",
+
+
+    "signupPasswordTitle": "비밀번호 입력",
+    "passwordPlaceholder": "비밀번호를 입력해주세요",
+    "showPassword": "비밀번호 보기",
+    "checkPassword": "비밀번호 확인",
+    "confirmPassword": "다시 한번 입력해주세요",
+    "passwordValid": "아직 6자리가 아니에요",
+    "passwordConfirmError": "비밀번호가 일치하지 않습니다",
+
+    "name": "이름",
+    "namePlaceholder": "이름을 입력하세요",
+    "nameError": "이름을 입력해주세요",
+    "studentId": "학번",
+    "studentIdPlaceholder": "학번(9자리)을 입력하세요",
+    "studentIdError": "학번은 9자리여야 합니다",
+    "studentIdError2": "학번을 입력해주세요",
+    "major": "전공",
+    "majorPlaceholder": "전공을 선택하세요",
+    "majorError": "전공을 선택해주세요",
+    "signupButton": "가입하기",
+    "signupSuccess": "회원가입이 완료되었습니다",
+    "signupError": "회원가입에 실패했습니다",
+    "majorJapanese": "일어일본학전공",
+    "majorChinese": "중어중국학전공",
+    "majorTheology": "종교와신학전공",
+    "majorBusiness": "경영학전공",
+    "majorSocialWelfare": "사회복지학전공",
+    "majorSociology": "사회학전공",
+    "majorEconomics": "경제학전공",
+    "majorPolitics": "정치외교학전공",
+    "majorJournalism": "신문방송학전공",
+    "majorDigitalContents": "디지털콘텐츠전공",
+    "majorVideoContents": "영상콘텐츠전공",
+    "majorAI": "인공지능전공",
+    "majorBigData": "빅데이터 응용전공",
+    "majorSoftware": "소프트웨어 융합전공",
+    "majorGraduate": "대학원",
+    "majorNone": "학과없음",
+
+    "building10": "구두인관",
+    "description10": "신학연구원과 구로마을 대학이 존재한다.",
+    "mission10": "구도에 맞춰 사진을 찍으세요!😄",
+
+    "building7": "새천년관",
+    "description7": "인문사회건물로 건강증진센터와,\n인권센터,학식당이 존재한다.",
+    "mission7": "구도에 맞춰 사진을 찍으세요!😄",
+
+    "building5": "학관",
+    "description5": "학생회관으로 \n동아리실과 학생회실이 존재한다.",
+    "mission5": "구도에 맞춰 사진을 찍으세요!😄",
+
+    "building1": "승연관",
+    "description1": "대학본부로 \n교무처와 총무처 등이 존재한다.",
+    "mission1": "구도에 맞춰 사진을 찍으세요!😄",
+
+    "building6": "미가엘관,이천환기념관",
+    "description6": "미가엘관:밥풀,헬스장,멋짐,기숙사가 존재한다. \n이천환기념관:이공계건물, 실습실이 존재한다.",
+    "mission6": "구도에 맞춰 사진을 찍으세요!😄",
+
+    "building8": "중앙도서관",
+    "description8": "성공회역사자료관과 세미나실이 존재한다.",
+    "mission8": "구도에 맞춰 사진을 찍으세요!😄",
+
+    "building3": "월당관",
+    "description3": "수업지원AS실과 열람실이 존재한다.",
+    "mission3": "다음 정답으로 올바른 것을 고르세요",
+
+    "building2": "일만관",
+    "description2": "교수연구실과 컴퓨터 실습실이 존재한다.",
+    "mission2": "구도에 맞춰 사진을 찍으세요!😄",
+    "mission": "미션하기",
+    "photo": "사진찍기",
+
+    "phototaken":"촬영된 사진",
+    "photoagain":"다시 찍기",
+    "submitphoto":"제출하기",
+    "missionSuccess":"미션 성공!",
+    "missionSuccessDescription":"미션을 성공적으로 완료했습니다!",
+    "transformImage":"이미지 변환",
+    "transformError":"이미지 변환 중 오류가 발생했습니다",
+    "missionFailure":"미션 실패",
+    "missionFailureDescription":"미션에 실패했습니다. \n다시 시도하시겠습니까?",
+    "cancel":"취소",
+    "tryAgain":"다시 시도",
+    "uploadFailure":"업로드 실패",
+    "uploadFailureDescription":"이미지 업로드에 실패했습니다. 다시 시도해주세요.",
+    "uploadFailureDetail":"오류 상세", 
+    "ok":"확인",
+    "saveGalleryDialog":"이미지가 갤러리에 저장되었습니다.",
+    "saveGalleryError":"이미지 저장 중 오류가 발생했습니다.",
+    "transformedImage":"변환된 이미지",
+    "loadingfail":"이미지를 불러오는 데 실패했습니다.",
+    "saveimage":"갤러리에 저장",
+    "transformingImage":"이미지를 변환중이에요. 잠시만 기다려주세요..."
+
+
+
+
+
+
+
+
+
+
+}

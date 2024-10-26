@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import './signup_userinfo.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SignupPassword extends StatefulWidget {
   final String email;
@@ -33,7 +35,8 @@ class _SignupPasswordState extends State<SignupPassword> {
   void _validatePassword() {
     setState(() {
       _isPasswordValid = _passwordController.text.length >= 6;
-      _passwordErrorMessage = _isPasswordValid ? null : '아직 6자리가 아니에요';
+      _passwordErrorMessage =
+          _isPasswordValid ? null : AppLocalizations.of(context)!.passwordValid;
       _isConfirmPasswordEnabled = _isPasswordValid;
       if (!_isPasswordValid) {
         _confirmPasswordController.clear();
@@ -49,7 +52,7 @@ class _SignupPasswordState extends State<SignupPassword> {
           _passwordController.text == _confirmPasswordController.text;
       _confirmPasswordErrorMessage =
           (_isConfirmPasswordEnabled && !_doPasswordsMatch)
-              ? '비밀번호가 일치하지 않습니다'
+              ? AppLocalizations.of(context)!.passwordConfirmError
               : null;
     });
   }
@@ -74,19 +77,19 @@ class _SignupPasswordState extends State<SignupPassword> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SizedBox(height: screenHeight * 0.05),
-                const Text(
-                  '회원가입',
-                  style: TextStyle(
+                Text(
+                  AppLocalizations.of(context)!.signup,
+                  style: const TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
                       fontFamily: 'GmarketSansTTFMedium'),
                 ),
                 SizedBox(height: screenHeight * 0.1),
-                const Align(
+                Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    '비밀번호 입력',
-                    style: TextStyle(
+                    AppLocalizations.of(context)!.signupPasswordTitle,
+                    style: const TextStyle(
                       fontSize: 20,
                       fontFamily: 'GmarketSansTTFBold',
                     ),
@@ -100,10 +103,11 @@ class _SignupPasswordState extends State<SignupPassword> {
                       controller: _passwordController,
                       obscureText: !_isPasswordVisible,
                       decoration: InputDecoration(
-                        hintText: '비밀번호를 입력해주세요',
+                        hintText:
+                            AppLocalizations.of(context)!.passwordPlaceholder,
                         hintStyle: const TextStyle(
                           fontFamily: 'GmarketSansTTFMedium',
-                          fontSize: 15,
+                          fontSize: 12,
                         ),
                         errorText: _passwordErrorMessage,
                         border: const UnderlineInputBorder(),
@@ -135,7 +139,7 @@ class _SignupPasswordState extends State<SignupPassword> {
                           checkColor: _checkboxCheckColor,
                         ),
                         Text(
-                          '비밀번호 보기',
+                          AppLocalizations.of(context)!.showPassword,
                           style: TextStyle(
                             fontFamily: 'GmarketSansTTFMedium',
                             fontSize: screenWidth * 0.035,
@@ -146,11 +150,11 @@ class _SignupPasswordState extends State<SignupPassword> {
                   ),
                 ),
                 SizedBox(height: screenHeight * 0.07),
-                const Align(
+                Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    '비밀번호 확인',
-                    style: TextStyle(
+                    AppLocalizations.of(context)!.checkPassword,
+                    style: const TextStyle(
                       fontSize: 20,
                       fontFamily: 'GmarketSansTTFBold',
                     ),
@@ -165,10 +169,10 @@ class _SignupPasswordState extends State<SignupPassword> {
                       obscureText: !_isPasswordVisible,
                       enabled: _isConfirmPasswordEnabled,
                       decoration: InputDecoration(
-                        hintText: '다시 한번 입력해주세요',
+                        hintText: AppLocalizations.of(context)!.confirmPassword,
                         hintStyle: const TextStyle(
                           fontFamily: 'GmarketSansTTFMedium',
-                          fontSize: 15,
+                          fontSize: 12,
                         ),
                         errorText: _confirmPasswordErrorMessage,
                         border: const UnderlineInputBorder(),
@@ -211,8 +215,9 @@ class _SignupPasswordState extends State<SignupPassword> {
                             borderRadius: BorderRadius.circular(10),
                           ),
                         ),
-                        child: const Text('계속하기',
-                            style: TextStyle(
+                        child: Text(
+                            AppLocalizations.of(context)!.continueButton,
+                            style: const TextStyle(
                                 fontSize: 18,
                                 fontFamily: 'GmarketSansTTFMedium',
                                 color: Colors.white)),

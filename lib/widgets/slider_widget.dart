@@ -59,7 +59,7 @@ class NearbyBuildingsSlider extends StatelessWidget {
                             building.buildingName,
                             style: const TextStyle(
                                 fontWeight: FontWeight.bold,
-                                fontSize: 20,
+                                fontSize: 15,
                                 fontFamily: 'GmarketSansTTFBold'),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
