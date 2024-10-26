@@ -103,15 +103,26 @@
     "cancel":"취소",
     "tryAgain":"다시 시도",
     "uploadFailure":"업로드 실패",
-    "uploadFailureDescription":"이미지 업로드에 실패했습니다. 다시 시도해주세요.",
+    "uploadFailureDescription":"이미지 업로드에 실패했습니다. \n다시 시도해주세요.",
     "uploadFailureDetail":"오류 상세", 
     "ok":"확인",
     "saveGalleryDialog":"이미지가 갤러리에 저장되었습니다.",
     "saveGalleryError":"이미지 저장 중 오류가 발생했습니다.",
+    "transformingerror":"이미지 변환 중 오류가 발생했습니다",
+    "saveGalleryfail":"저장에 실패했습니다",
     "transformedImage":"변환된 이미지",
+
     "loadingfail":"이미지를 불러오는 데 실패했습니다.",
     "saveimage":"갤러리에 저장",
-    "transformingImage":"이미지를 변환중이에요. 잠시만 기다려주세요..."
+    "transformingImage":"이미지 변환 중입니다. 변환이 완료되면 알려드릴게요",
+    "tranformalarm":"변환이 완료되었습니다. 갤러리를 확인해주세요",
+    "gallery":"갤러리",
+    "logout":"로그아웃",
+    "logoutError":"로그아웃 중 오류가 발생했습니다.",
+    "imageloadingerror":"이미지 로딩 중 오류가 발생했습니다.",
+    "noimage":"아직 변환된 이미지가 없습니다.",
+    "saveingimage":"이미지 저장 중...",
+    "permissionerror":"갤러리 접근 권한이 필요합니다. 설정에서 권한을 허용해주세요."
 
 
 

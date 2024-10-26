@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import '../services/ImageTransform_service.dart';
-import './transform_image_screen.dart';
-import './loading_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../naver_map/naver_map.dart';
+import 'dart:async';
 
 void showMissionSuccessDialog(BuildContext context, String imagePath) {
   showDialog(
@@ -25,34 +25,70 @@ void showMissionSuccessDialog(BuildContext context, String imagePath) {
                 Navigator.of(dialogContext).pop(); // 다이얼로그 닫기
 
                 // 로딩 화면 표시
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => const LoadingScreen(),
-                ));
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => const NaverMapApp()),
+                  (Route<dynamic> route) => false,
+                );
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(AppLocalizations.of(context)!.transformImage),
+                    duration: const Duration(seconds: 3),
+                  ),
+                );
 
                 try {
                   final imageTransformationService =
                       ImageTransformationService();
-                  final transformedImageUrl = await imageTransformationService
-                      .transformImage(imagePath);
-                  print(
-                      'Transformed Image URL: $transformedImageUrl'); // URL 확인용 로그
+                  // 변환 시작
+                  await imageTransformationService
+                      .startTransformation(imagePath);
 
-                  if (context.mounted) {
-                    // 로딩 화면을 제거하고 변환된 이미지 화면으로 전환
-                    Navigator.of(context).pushReplacement(MaterialPageRoute(
-                      builder: (context) =>
-                          TransformedImageScreen(imageUrl: transformedImageUrl),
-                    ));
-                  }
+                  // 상태 확인 타이머 시작
+                  Timer.periodic(const Duration(seconds: 3), (timer) async {
+                    try {
+                      final status = await imageTransformationService
+                          .checkTransformationStatus();
+                      print('Transform status: $status'); // 디버깅용
+
+                      if (!context.mounted) {
+                        timer.cancel();
+                        return;
+                      }
+
+                      if (status == 'COMPLETED') {
+                        timer.cancel();
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                                AppLocalizations.of(context)!.tranformalarm),
+                            duration: const Duration(seconds: 3),
+                          ),
+                        );
+                      } else if (status == 'FAILED') {
+                        timer.cancel();
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                                AppLocalizations.of(context)!.transformError),
+                            duration: const Duration(seconds: 3),
+                          ),
+                        );
+                      }
+                    } catch (e) {
+                      print('Status check error: $e');
+                      timer.cancel();
+                    }
+                  });
                 } catch (e) {
-                  print('Error transforming image: $e');
+                  print('Error starting transformation: $e');
                   if (context.mounted) {
-                    // 오류 발생 시 로딩 화면 제거
-                    Navigator.of(context).pop();
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                          content: Text(
-                              AppLocalizations.of(context)!.transformError)),
+                        content: Text(
+                            AppLocalizations.of(context)!.transformingerror),
+                        duration: const Duration(seconds: 3),
+                      ),
                     );
                   }
                 }

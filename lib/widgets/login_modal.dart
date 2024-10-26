@@ -44,8 +44,11 @@ class _LoginModalState extends State<LoginModal> {
       );
       print('Login result: $result');
 
+      // 세션 쿠키 확인
+      final sessionCookie = await ApiService.getSessionCookie();
+      print('Session cookie after login: $sessionCookie');
+
       if (result == 'Login successful') {
-        // 로그인 성공 후 네이버 맵 페이지로 이동
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (context) => const NaverMapApp()),
         );

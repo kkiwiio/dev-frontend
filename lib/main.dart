@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'onboarding.dart';
+import 'initial_screen.dart';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -8,7 +8,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await NaverMapSdk.instance.initialize(
-    clientId: ,
+    clientId: '7vff5ieoeb',
     onAuthFailed: (error) {
       print('Auth failed: $error');
     },
@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
       },
       debugShowCheckedModeBanner: false,
       title: 'skhu adventure',
-      home: const OnboardingPage(),
+      home: const InitialScreen(),
     );
   }
 }

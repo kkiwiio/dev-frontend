@@ -108,15 +108,27 @@
     "cancel":"Cancel",
     "tryAgain":"Try again",
     "uploadFailure":"Upload failed",
-    "uploadFailureDescription":"Failed to upload image. Please try again.",
+    "uploadFailureDescription":"Failed to upload image. \nPlease try again.",
     "uploadFailureDetail":"Error detail:", 
     "ok":"OK",
     "saveGalleryDialog":"Image saved to gallery",
     "saveGalleryError":"An error occurred while saving the image",
+    "transformingerror":"An error occurred while transforming the image",
+    "saveGalleryfail":"Failed to save",
     "transformedImage":"Transformed image",
+
     "loadingfail":"Failed to load image.",
     "saveimage":"Save to gallery",
-    "transformingImage":"Image is being transformed. Please wait..."
+    "transformingImage":"Image is being transformed. \nWhen the transformation is complete, I'll let you know.",
+    "tranformalarm":"The transformation is complete. \nPlease check the gallery.",
+    "gallery":"Gallery",
+    "logout":"Logout",
+    "logoutError":"An error occurred while logging out.",
+    "imageloadingerror":"An error occurred while loading the image.",
+    "noimage":"No transformed images yet.",
+    "saveingimage":"Saving image...",
+    "permissionerror":"Gallery access permission is required. \nPlease allow the permission in the settings."
+
 
 
 }

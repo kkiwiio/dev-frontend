@@ -25,16 +25,38 @@ class ApiService {
     }
   }
 
+  static Future<bool> isLoggedIn() async {
+    final sessionCookie = await getSessionCookie();
+    if (sessionCookie == null) {
+      return false;
+    }
+
+    try {
+      final response = await http.get(
+        Uri.parse('$baseUrl/api/users/info'),
+        headers: {'Cookie': sessionCookie},
+      );
+      return response.statusCode == 200;
+    } catch (e) {
+      print('Error checking login status: $e');
+      return false;
+    }
+  }
+
   static Future<String> login(String userId, String password) async {
     try {
       final response = await http.post(
         Uri.parse('$baseUrl/api/users/login'),
-        headers: {'Content-Type': 'application/json'},
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
         body: jsonEncode({'userId': userId, 'password': password}),
       );
 
+      print('Login response headers: ${response.headers}');
+
       if (response.statusCode == 200) {
-        // 로그인 성공 시 쿠키(세션 ID)를 저장합니다.
         String? rawCookie = response.headers['set-cookie'];
         if (rawCookie != null) {
           int index = rawCookie.indexOf(';');
@@ -61,24 +83,6 @@ class ApiService {
     return prefs.getString('sessionCookie');
   }
 
-  static Future<String> completeMission(int buildingNumber) async {
-    final sessionCookie = await getSessionCookie();
-    if (sessionCookie == null) {
-      throw Exception('Not logged in');
-    }
-
-    final response = await http.post(
-      Uri.parse('$baseUrl/missions/building/$buildingNumber'),
-      headers: {'Cookie': sessionCookie},
-    );
-
-    if (response.statusCode == 200) {
-      return 'Mission completed';
-    } else {
-      throw Exception('Failed to complete mission: ${response.body}');
-    }
-  }
-
   static Future<String> getMajorInfo() async {
     final sessionCookie = await getSessionCookie();
     if (sessionCookie == null) {
@@ -86,7 +90,7 @@ class ApiService {
     }
 
     final response = await http.get(
-      Uri.parse('$baseUrl/major/info'),
+      Uri.parse('$baseUrl/api/major/info'),
       headers: {'Cookie': sessionCookie},
     );
 
@@ -104,14 +108,33 @@ class ApiService {
     }
 
     final response = await http.get(
-      Uri.parse('$baseUrl/users/info'),
+      Uri.parse('$baseUrl/api/users/info'),
       headers: {'Cookie': sessionCookie},
     );
 
     if (response.statusCode == 200) {
-      return Users.fromJson(jsonDecode(response.body));
+      print('User info response: ${response.body}');
+      return Users.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
     } else {
       throw Exception('Failed to get user info: ${response.body}');
+    }
+  }
+
+  static Future<String> completeMission(int buildingNumber) async {
+    final sessionCookie = await getSessionCookie();
+    if (sessionCookie == null) {
+      throw Exception('Not logged in');
+    }
+
+    final response = await http.post(
+      Uri.parse('$baseUrl/missions/building/$buildingNumber'),
+      headers: {'Cookie': sessionCookie},
+    );
+
+    if (response.statusCode == 200) {
+      return 'Mission completed';
+    } else {
+      throw Exception('Failed to complete mission: ${response.body}');
     }
   }
 }
@@ -120,14 +143,14 @@ class Users {
   final String userId;
   final String? password;
   final String userName;
-  final int majorId;
+  final int? majorId;
   final String studentId;
 
   Users({
     required this.userId,
     this.password,
     required this.userName,
-    required this.majorId,
+    this.majorId,
     required this.studentId,
   });
 
@@ -139,13 +162,19 @@ class Users {
         'studentId': studentId,
       };
 
-  factory Users.fromJson(Map<String, dynamic> json) => Users(
-        userId: json['userId'],
-        userName: json['userName'],
-        majorId: json['majorId'],
-        studentId: json['studentId'],
-        password: json['password'],
-      );
+  factory Users.fromJson(Map<String, dynamic> json) {
+    // majorId가 null일 경우 기본값으로 0을 지정하거나,
+    // null이 될 수 있도록 타입을 수정
+    final majorIdValue = json['majorId'] ?? 0; // null일 경우 0으로 처리
+
+    return Users(
+      userId: json['userId'],
+      userName: json['userName'],
+      majorId: majorIdValue,
+      studentId: json['studentId'].toString(),
+      password: json['password'],
+    );
+  }
 }
 
 class MissionEntity {

@@ -4,6 +4,7 @@ import 'package:project_heck/naver_map/maker_campus.dart';
 import 'package:project_heck/naver_map/user_position.dart';
 import 'package:project_heck/naver_map/campusmarker_model.dart';
 import 'package:project_heck/widgets/slider_widget.dart';
+import '../widgets/side_drawer.dart';
 
 class NaverMapApp extends StatefulWidget {
   const NaverMapApp({super.key});
@@ -33,6 +34,20 @@ class _NaverMapAppState extends State<NaverMapApp> {
 
     return Scaffold(
       key: _scaffoldKey,
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(
+            Icons.menu,
+            color: Color(0xFF333333),
+          ),
+          onPressed: () {
+            _scaffoldKey.currentState?.openDrawer();
+          },
+        ),
+      ),
+      drawer: const CustomDrawer(),
       body: Stack(
         children: [
           NaverMap(
