@@ -2,9 +2,19 @@ import 'package:flutter/material.dart';
 import '../services/ImageTransform_service.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../naver_map/naver_map.dart';
-import 'dart:async';
+import '../services/transform_message.dart';
 
+// mission_result_dialogs.dart
+
+// lib/dialogs/mission_result_dialogs.dart
 void showMissionSuccessDialog(BuildContext context, String imagePath) {
+  final imageTransformationService = ImageTransformationService();
+
+  imageTransformationService.setNotificationMessages(NotificationMessages(
+    transformCompleteBody: AppLocalizations.of(context)!.transformingImage,
+    transformFailBody: AppLocalizations.of(context)!.transformingerror,
+  ));
+
   showDialog(
     context: context,
     builder: (BuildContext dialogContext) {
@@ -22,72 +32,35 @@ void showMissionSuccessDialog(BuildContext context, String imagePath) {
               label: Text(AppLocalizations.of(context)!.transformImage,
                   style: const TextStyle(fontFamily: 'GmarketSansTTFMedium')),
               onPressed: () async {
-                Navigator.of(dialogContext).pop(); // 다이얼로그 닫기
-
-                // 로딩 화면 표시
-                Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(builder: (context) => const NaverMapApp()),
-                  (Route<dynamic> route) => false,
-                );
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(AppLocalizations.of(context)!.transformImage),
-                    duration: const Duration(seconds: 3),
-                  ),
-                );
-
                 try {
-                  final imageTransformationService =
-                      ImageTransformationService();
-                  // 변환 시작
                   await imageTransformationService
-                      .startTransformation(imagePath);
+                      .queueTransformation(imagePath);
 
-                  // 상태 확인 타이머 시작
-                  Timer.periodic(const Duration(seconds: 3), (timer) async {
-                    try {
-                      final status = await imageTransformationService
-                          .checkTransformationStatus();
-                      print('Transform status: $status'); // 디버깅용
+                  if (context.mounted) {
+                    Navigator.of(dialogContext).pop();
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const NaverMapApp()),
+                      (Route<dynamic> route) => false,
+                    );
 
-                      if (!context.mounted) {
-                        timer.cancel();
-                        return;
-                      }
-
-                      if (status == 'COMPLETED') {
-                        timer.cancel();
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(
-                                AppLocalizations.of(context)!.tranformalarm),
-                            duration: const Duration(seconds: 3),
-                          ),
-                        );
-                      } else if (status == 'FAILED') {
-                        timer.cancel();
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(
-                                AppLocalizations.of(context)!.transformError),
-                            duration: const Duration(seconds: 3),
-                          ),
-                        );
-                      }
-                    } catch (e) {
-                      print('Status check error: $e');
-                      timer.cancel();
-                    }
-                  });
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                            AppLocalizations.of(context)!.transformingImage),
+                        duration: const Duration(seconds: 2),
+                      ),
+                    );
+                  }
                 } catch (e) {
-                  print('Error starting transformation: $e');
+                  print('Error in transform request: $e');
                   if (context.mounted) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         content: Text(
-                            AppLocalizations.of(context)!.transformingerror),
-                        duration: const Duration(seconds: 3),
+                            AppLocalizations.of(context)!.transformingImage),
+                        backgroundColor: Colors.red,
                       ),
                     );
                   }
@@ -122,7 +95,6 @@ void showMissionFailureDialog(BuildContext context) {
                 style: const TextStyle(fontFamily: 'GmarketSansTTFMedium')),
             onPressed: () {
               Navigator.of(context).pop();
-              // TODO: 여기에 미션을 다시 시도하는 로직을 추가하세요.
             },
           ),
           TextButton(

@@ -63,7 +63,7 @@ void showMarkerDialog(BuildContext context, CampusMarker campusmarker) {
                 campusmarker.buildingName,
                 style: const TextStyle(
                   fontFamily: 'GmarketSansTTFBold',
-                  fontSize: 20,
+                  fontSize: 18,
                 ),
                 textAlign: TextAlign.center,
               ),

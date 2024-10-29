@@ -36,6 +36,10 @@ class _LoginModalState extends State<LoginModal> {
     setState(() {
       _isLoading = true;
     });
+    // Navigator.of(context).pushReplacement(
+    //   MaterialPageRoute(builder: (context) => const NaverMapApp()),
+    // );
+    // return;
 
     try {
       final result = await ApiService.login(

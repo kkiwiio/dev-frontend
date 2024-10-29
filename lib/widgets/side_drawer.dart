@@ -135,59 +135,6 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   child: ListView(
                     padding: EdgeInsets.zero,
                     children: [
-                      // 미션 진행 상황 섹션
-                      const Padding(
-                        padding: EdgeInsets.all(16.0),
-                        child: Text(
-                          '미션 진행 상황',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontFamily: 'GmarketSansTTFBold',
-                            color: Color(0xFF333333),
-                          ),
-                        ),
-                      ),
-                      Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 16),
-                        padding: const EdgeInsets.all(16),
-                        decoration: BoxDecoration(
-                          color: Colors.grey[100],
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const LinearProgressIndicator(
-                              value: 0.3,
-                              backgroundColor: Colors.white,
-                              valueColor: AlwaysStoppedAnimation<Color>(
-                                  Color(0xFF87C159)),
-                              minHeight: 8,
-                            ),
-                            const SizedBox(height: 12),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const Text(
-                                  '3/10 건물',
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    fontFamily: 'GmarketSansTTFMedium',
-                                  ),
-                                ),
-                                Text(
-                                  '30%',
-                                  style: TextStyle(
-                                    color: Colors.grey[600],
-                                    fontFamily: 'GmarketSansTTFMedium',
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-
                       // 갤러리 섹션
                       ListTile(
                         contentPadding: const EdgeInsets.symmetric(

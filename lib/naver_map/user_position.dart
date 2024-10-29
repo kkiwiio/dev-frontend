@@ -14,6 +14,7 @@ class LocationService {
   late bool _serviceEnabled;
   late PermissionStatus _permissionGranted;
   StreamSubscription<LocationData>? _locationSubscription;
+  bool _isDisposed = false;
 
   List<CampusMarker> sortedBuildings = [];
   Function(List<CampusMarker>)? onBuildingsSorted;
@@ -25,21 +26,19 @@ class LocationService {
   }
 
   Future<void> _initializeLocation() async {
+    if (_isDisposed) return;
+
     try {
       _serviceEnabled = await location.serviceEnabled();
       if (!_serviceEnabled) {
         _serviceEnabled = await location.requestService();
-        if (!_serviceEnabled) {
-          return;
-        }
+        if (!_serviceEnabled) return;
       }
 
       _permissionGranted = await location.hasPermission();
       if (_permissionGranted == PermissionStatus.denied) {
         _permissionGranted = await location.requestPermission();
-        if (_permissionGranted != PermissionStatus.granted) {
-          return;
-        }
+        if (_permissionGranted != PermissionStatus.granted) return;
       }
 
       await location.changeSettings(
@@ -55,6 +54,8 @@ class LocationService {
 
   Future<bool> isBuildingInRange(
       CampusMarker building, double maxDistance) async {
+    if (_isDisposed) return false;
+
     LocationData? userLocation = await getCurrentLocation();
     if (userLocation == null) return false;
 
@@ -68,14 +69,20 @@ class LocationService {
   }
 
   Future<void> _startLocationUpdates() async {
+    if (_isDisposed) return;
+
     _locationSubscription =
         location.onLocationChanged.listen((LocationData locationData) {
-      _updateUserLocation(locationData);
+      if (!_isDisposed) {
+        _updateUserLocation(locationData);
+      }
     });
   }
 
   List<CampusMarker> sortBuildingsByDistance(
       LocationData userLocation, List<CampusMarker> buildings) {
+    if (_isDisposed) return [];
+
     for (var building in buildings) {
       building.distance = calculateDistance(
           userLocation.latitude!,
@@ -88,36 +95,67 @@ class LocationService {
     return buildings;
   }
 
-  void _updateUserLocation(LocationData locationData) {
-    if (_currentLocationMarker != null) {
-      mapController.deleteOverlay(_currentLocationMarker!.info);
-    }
+  void _updateUserLocation(LocationData locationData) async {
+    if (_isDisposed) return;
 
-    _currentLocationMarker = NMarker(
-      id: 'currentLocation',
-      icon: const NOverlayImage.fromAssetImage(
-          'assets/images/current_location.png'),
-      position: NLatLng(locationData.latitude!, locationData.longitude!),
-    );
-
-    mapController.addOverlay(_currentLocationMarker!);
-    mapController.updateCamera(
-      NCameraUpdate.withParams(
-        target: NLatLng(locationData.latitude!, locationData.longitude!),
-        zoom: 17.8,
-      ),
-    );
-
-    // 마커가 있는 경우에만 정렬 수행
-    if (_markers != null) {
-      sortedBuildings = sortBuildingsByDistance(locationData, _markers!);
-      if (onBuildingsSorted != null) {
-        onBuildingsSorted!(sortedBuildings);
+    try {
+      if (_currentLocationMarker != null) {
+        try {
+          await mapController.deleteOverlay(_currentLocationMarker!.info);
+        } catch (e) {
+          print('Error deleting overlay: $e');
+        }
       }
+
+      if (_isDisposed) return;
+
+      _currentLocationMarker = NMarker(
+        id: 'currentLocation',
+        icon: const NOverlayImage.fromAssetImage(
+            'assets/images/current_location.png'),
+        position: NLatLng(locationData.latitude!, locationData.longitude!),
+      );
+
+      try {
+        if (!_isDisposed) {
+          await mapController.addOverlay(_currentLocationMarker!);
+        }
+      } catch (e) {
+        print('Error adding overlay: $e');
+      }
+
+      try {
+        if (!_isDisposed) {
+          final cameraUpdate = NCameraUpdate.scrollAndZoomTo(
+            target: NLatLng(locationData.latitude!, locationData.longitude!),
+            zoom: 17.8,
+          );
+
+          cameraUpdate.setAnimation(
+            animation: NCameraAnimation.easing,
+            duration: const Duration(milliseconds: 800),
+          );
+
+          await mapController.updateCamera(cameraUpdate);
+        }
+      } catch (e) {
+        print('Error updating camera: $e');
+      }
+
+      if (_markers != null && !_isDisposed) {
+        sortedBuildings = sortBuildingsByDistance(locationData, _markers!);
+        if (onBuildingsSorted != null) {
+          onBuildingsSorted!(sortedBuildings);
+        }
+      }
+    } catch (e) {
+      print('Error in _updateUserLocation: $e');
     }
   }
 
   Future<LocationData?> getCurrentLocation() async {
+    if (_isDisposed) return null;
+
     try {
       return await location.getLocation();
     } catch (e) {
@@ -127,6 +165,11 @@ class LocationService {
   }
 
   void dispose() {
+    _isDisposed = true;
     _locationSubscription?.cancel();
+    _currentLocationMarker = null;
+    _markers = null;
+    sortedBuildings.clear();
+    onBuildingsSorted = null;
   }
 }

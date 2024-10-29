@@ -148,50 +148,56 @@ class ImageDetailScreen extends StatelessWidget {
 
   Future<void> _saveImage(BuildContext context) async {
     try {
-      // 권한 요청 - Android 13 (API 33) 이상을 위한 사진 및 미디어 권한
-      if (await Permission.photos.request().isGranted) {
-        // 저장 중 표시
-        if (context.mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('이미지 저장 중...')),
-          );
-        }
-
-        // 이미지 다운로드
-        final response = await Dio().get(
-          imageUrl,
-          options: Options(responseType: ResponseType.bytes),
-        );
-
-        // 이미지 저장 시도
-        final result = await ImageGallerySaver.saveImage(
-          Uint8List.fromList(response.data),
-          quality: 100,
-          name: "captured_image_${DateTime.now().millisecondsSinceEpoch}.jpg",
-        );
-
-        if (context.mounted) {
-          if (result != null && result['isSuccess'] == true) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(AppLocalizations.of(context)!.saveGalleryDialog),
-                backgroundColor: const Color(0xFF87C159),
-              ),
-            );
-          } else {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(AppLocalizations.of(context)!.saveGalleryfail),
-                backgroundColor: Colors.red,
-              ),
-            );
-          }
-        }
-      } else {
+      // Android 13 이상과 이하 버전 모두에 대한 권한 처리
+      if (!await Permission.storage.request().isGranted &&
+          !await Permission.photos.request().isGranted) {
         if (context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(AppLocalizations.of(context)!.permissionerror),
+              backgroundColor: Colors.red,
+              action: SnackBarAction(
+                label: '설정',
+                textColor: Colors.white,
+                onPressed: () => openAppSettings(),
+              ),
+            ),
+          );
+        }
+        return;
+      }
+
+      // 저장 중 표시
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text(AppLocalizations.of(context)!.saveingimage)));
+      }
+
+      // 이미지 다운로드
+      final response = await Dio().get(
+        imageUrl,
+        options: Options(responseType: ResponseType.bytes),
+      );
+
+      // 이미지 저장 시도 (saveImage 사용)
+      final result = await ImageGallerySaver.saveImage(
+        Uint8List.fromList(response.data),
+        quality: 100,
+        name: "captured_image_${DateTime.now().millisecondsSinceEpoch}",
+      );
+
+      if (context.mounted) {
+        if (result != null && result['isSuccess'] == true) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(AppLocalizations.of(context)!.saveGalleryDialog),
+              backgroundColor: const Color(0xFF87C159),
+            ),
+          );
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(AppLocalizations.of(context)!.saveGalleryfail),
               backgroundColor: Colors.red,
             ),
           );

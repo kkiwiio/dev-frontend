@@ -67,7 +67,7 @@ class _SignupFormState extends State<SignupForm> {
           userId: widget.email,
         );
         // print('Sending user data: ${user.toJson()}');
-        final result = await ApiService.signup(user);
+        await ApiService.signup(user);
         // print('Signup successful: $result');
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(AppLocalizations.of(context)!.signupSuccess)),
